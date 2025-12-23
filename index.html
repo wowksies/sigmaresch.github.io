@@ -2,379 +2,355 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>💥nig bomb 💥</title>
+    <title>nig bob 6.7</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* --- CORE CHAOS --- */
+        :root { --neon-green: #39ff14; --neon-pink: #ff00ff; }
         body {
-            margin: 0;
-            background-color: #000;
-            overflow: hidden;
-            font-family: 'Impact', sans-serif;
-            color: lime;
-            cursor: crosshair;
+            margin: 0; background: #000; color: var(--neon-green);
+            font-family: 'Press Start 2P', monospace;
+            overflow: hidden; height: 100vh; user-select: none;
+            cursor: crosshair; text-align: center;
         }
 
-        /* BACKGROUND IMAGES (Pizza, Toilet, Illuminati) */
-        .bg-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background-image: 
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text y="50" font-size="50">🍕</text></svg>'),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text y="50" font-size="50">🚽</text></svg>'),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><text y="50" font-size="50">👁️</text></svg>');
-            background-repeat: space;
-            opacity: 0.3;
-            z-index: -1;
-            animation: bg-spin 10s linear infinite;
-        }
-
-        @keyframes bg-spin {
-            0% { transform: scale(1); filter: hue-rotate(0deg); }
-            50% { transform: scale(1.5); filter: hue-rotate(180deg); }
-            100% { transform: scale(1); filter: hue-rotate(360deg); }
-        }
-
-        /* CRT EFFECT */
+        /* --- VISUAL EFFECTS --- */
         .scanlines {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-            z-index: 900;
-        }
-
-        /* THE R6 FLASHBANG IMAGE */
-        #flashbang-img {
-            position: fixed;
-            bottom: -200px;
-            right: -200px;
-            width: 150px;
-            height: auto;
-            z-index: 1500;
-            display: none; /* Hidden until thrown */
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 4px 100%; pointer-events: none; z-index: 10;
         }
         
-        /* Animation for throwing the flash */
-        @keyframes throw-arc {
-            0% { bottom: -100px; right: -100px; transform: rotate(0deg) scale(0.5); }
-            50% { bottom: 50%; right: 50%; transform: rotate(-720deg) scale(1.5); }
-            100% { bottom: 50%; right: 50%; transform: rotate(-1000deg) scale(1.5); }
-        }
-
-        /* THE WHITE SCREEN OF DEATH */
-        #flash-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: white;
-            opacity: 0;
+        /* Floating Meme Text */
+        .meme-popup {
+            position: absolute;
+            font-size: 1.5rem;
+            color: yellow;
+            text-shadow: 2px 2px red;
             pointer-events: none;
-            z-index: 2000;
+            animation: floatUp 1s forwards;
+            z-index: 100;
+            white-space: nowrap;
         }
-        
-        .blind {
-            animation: blind-anim 3s ease-out forwards;
-        }
-        @keyframes blind-anim {
-            0% { opacity: 1; }
-            10% { opacity: 1; background: white; }
-            100% { opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(20deg) scale(1.5); opacity: 0; }
         }
 
-        /* UI CONTAINERS */
-        .container {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; width: 100vw; text-align: center;
-            z-index: 10; position: relative;
+        /* Hitmarker */
+        .hitmarker {
+            position: absolute; width: 40px; height: 40px;
+            border: 2px solid white; transform: rotate(45deg);
+            pointer-events: none; z-index: 101;
         }
+        .hitmarker::before, .hitmarker::after {
+            content: ''; position: absolute; background: white;
+        }
+        .hitmarker::before { top: 18px; left: -10px; width: 60px; height: 2px; }
+        .hitmarker::after { top: -10px; left: 18px; width: 2px; height: 60px; }
 
-        h1 { font-size: 5rem; text-shadow: 5px 5px 0px red; letter-spacing: 5px; margin: 0; }
+        /* Screenshake */
+        .shake { animation: shakeAnim 0.2s infinite; }
+        @keyframes shakeAnim { 0% {transform: translate(0,0);} 25% {transform: translate(5px,5px);} 50% {transform: translate(-5px, 5px);} 75% {transform: translate(5px, -5px);} }
+
+        /* --- UI ELEMENTS --- */
+        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        .hidden { display: none !important; }
         
         .btn {
-            background: red; border: 5px solid yellow; color: white;
-            font-size: 2rem; padding: 20px 40px; font-family: 'Impact';
-            cursor: pointer; box-shadow: 10px 10px 0px blue;
-            transition: transform 0.1s;
+            background: black; border: 4px solid var(--neon-green); color: white;
+            padding: 20px; font-family: 'Press Start 2P'; font-size: 1.2rem;
+            cursor: pointer; margin-top: 20px;
+            box-shadow: 5px 5px 0px blue;
         }
-        .btn:active { transform: scale(0.95); }
+        .btn:hover { background: blue; color: white; transform: scale(1.1); }
 
-        .hidden { display: none !important; }
+        #game-canvas { border: 4px solid white; background: #111; max-width: 95%; }
 
-        /* QUIZ STYLES */
-        .quiz-btn {
-            display: block; width: 60%; margin: 10px auto;
-            background: blue; color: white; font-size: 2rem; border: 2px solid white;
-        }
-        .quiz-btn:hover { background: gold; color: black; }
-
+        /* Quiz Grid */
+        .quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 90%; max-width: 600px; }
+        .quiz-btn { background: #222; border: 2px solid white; color: yellow; padding: 15px; cursor: pointer; font-family: 'Press Start 2P'; }
+        .quiz-btn:hover { background: red; }
     </style>
 </head>
 <body>
-
-    <div class="bg-layer"></div>
     <div class="scanlines"></div>
-    <div id="flash-overlay"></div>
-
-    <img id="flashbang-img" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 200'%3E%3Crect x='30' y='40' width='40' height='120' rx='10' fill='%23555' stroke='black' stroke-width='3'/%3E%3Crect x='25' y='30' width='50' height='10' fill='silver' stroke='black'/%3E%3Ccircle cx='70' cy='35' r='10' fill='none' stroke='silver' stroke-width='3'/%3E%3Crect x='30' y='60' width='40' height='5' fill='red'/%3E%3Ctext x='35' y='120' fill='white' font-family='Arial' font-size='10' font-weight='bold'%3EM84%3C/text%3E%3C/svg%3E" alt="Flashbang">
 
     <div id="intro" class="container">
-        <h1>TACTICAL<br>BRAINROT<br>OPS</h1>
-        <p style="font-size: 1.5rem; background: black;">🔊 CLICK START TO ENABLE AUDIO 🔊</p>
-        <button class="btn" onclick="initSite()">DEPLOY TO OHIO</button>
+        <h1 style="color: red; text-shadow: 4px 4px 0 blue;">🔥 MLG PRO LEAGUE 🔥</h1>
+        <p>EPILEPSY WARNING</p>
+        <p>SOUND REQUIRED</p>
+        <button class="btn" onclick="startSequence()">QUICKSCOPE TO START</button>
     </div>
 
-    <div id="game-ui" class="container hidden">
-        <h2 style="background:black;">DODGE THE SPIKES (TAP/SPACE)</h2>
-        <canvas id="game-canvas" width="600" height="300" style="background:#222; border: 5px solid lime; box-shadow: 0 0 20px red;"></canvas>
-        <h3 id="score" style="background:black;">SCORE: 0</h3>
+    <div id="geo-ui" class="container hidden">
+        <h2 style="color: cyan;">LEVEL 1: SANIC SPEED</h2>
+        <p>Tap / Space to Jump</p>
+        <canvas id="game-canvas" width="600" height="300"></canvas>
+        <h3 id="geo-score">SCORE: 0 / 250</h3>
+    </div>
+
+    <div id="whack-ui" class="container hidden">
+        <h2>LEVEL 2: MEME HUNTER</h2>
+        <p>Click the TROLLFACE!</p>
+        <div id="whack-area" style="width: 300px; height: 300px; position: relative; border: 2px dashed lime;"></div>
+        <h3>SCORE: <span id="whack-score">0</span>/5</h3>
     </div>
 
     <div id="quiz-ui" class="container hidden">
-        <h1 style="font-size: 3rem;">THE INTERROGATION</h1>
-        <h2 id="q-text" style="background: black; padding: 10px;">LOADING...</h2>
-        <div id="q-opts" style="width: 100%;"></div>
+        <h1 style="font-size: 1.5rem;">THE INTERNET EXAM</h1>
+        <h2 id="q-text" style="color: yellow; margin-bottom: 20px;">...</h2>
+        <div id="q-options" class="quiz-grid"></div>
     </div>
 
-    <div id="outro" class="container hidden">
-        <h1 class="spin-text" style="color: yellow; font-size: 6rem;">MISSION PASSED</h1>
-        <div style="font-size: 3rem; font-weight: bold; line-height: 1.5; text-shadow: 3px 3px 0 black;">
-            <div id="txt1">🍕 EAT PIZZA</div>
-            <div id="txt2">😴 SLEEP</div>
-            <div id="txt3" style="color: red; font-size: 5rem;">👹 GOON</div>
-            <div id="txt4">🔁 REPEAT</div>
+    <div id="ending-ui" class="container hidden">
+        <h1 class="shake" style="font-size: 3rem; color: lime;">MISSION PASSED</h1>
+        <h2 style="color: gold;">RESPECT +</h2>
+        <div style="font-size: 1.5rem; line-height: 2;">
+            <div>🍕 EAT PIZZA</div>
+            <div>😴 SLEEP</div>
+            <div style="color: red;">👹 GOON</div>
+            <div>🔁 REPEAT</div>
         </div>
-        <button class="btn" onclick="location.reload()" style="margin-top:20px;">RE-FLASH</button>
+        <button class="btn" onclick="location.reload()">PRESTIGE MODE</button>
     </div>
 
     <script>
-        // --- AUDIO ENGINE (OSCILLATORS FOR RELIABILITY) ---
-        let audioCtx;
+        const synth = window.speechSynthesis;
         
-        function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-        }
-
-        // 1. FLASHBANG SOUND (White Noise + Tinnitus Ring)
-        function soundBang() {
-            const t = audioCtx.currentTime;
-            
-            // Explosion (White Noise)
-            const bufferSize = audioCtx.sampleRate * 2; // 2 seconds
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
-
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-            const noiseGain = audioCtx.createGain();
-            noiseGain.gain.setValueAtTime(1, t);
-            noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 1);
-            
-            noise.connect(noiseGain);
-            noiseGain.connect(audioCtx.destination);
-            noise.start();
-
-            // Tinnitus Ring (High Pitch Sine)
-            const osc = audioCtx.createOscillator();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(2500, t); // 2500Hz ear ringing
-            const oscGain = audioCtx.createGain();
-            oscGain.gain.setValueAtTime(0.1, t);
-            oscGain.gain.linearRampToValueAtTime(0.3, t + 0.1);
-            oscGain.gain.exponentialRampToValueAtTime(0.01, t + 4); // Rings for 4 seconds
-
-            osc.connect(oscGain);
-            oscGain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(t + 4);
-        }
-
-        // 2. JUMP SOUND
-        function soundJump() {
-            const osc = audioCtx.createOscillator();
-            const g = audioCtx.createGain();
-            osc.type = 'square';
-            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
-            g.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            osc.connect(g); g.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-        }
-
-        // 3. VOICE (TTS)
-        function speak(text) {
-            window.speechSynthesis.cancel();
+        // --- MEME SOUNDBOARD (Text-to-Speech Tricks) ---
+        function say(text, rate=1.2, pitch=1.0, vol=1) {
+            if(synth.speaking) synth.cancel();
             const u = new SpeechSynthesisUtterance(text);
-            u.rate = 1.3; u.pitch = 0.8; u.volume = 1;
-            window.speechSynthesis.speak(u);
+            u.rate = rate; u.pitch = pitch; u.volume = vol;
+            synth.speak(u);
         }
 
-        // --- FLASHBANG ANIMATION LOGIC ---
-        function throwFlashbang(callback) {
-            const img = document.getElementById('flashbang-img');
-            const overlay = document.getElementById('flash-overlay');
-            
-            // 1. Play "Pin Pull" sound (short hiss)
+        const memes = [
+            {t: "MOM GET THE CAMERA!", r: 1.5, p: 1.5},
+            {t: "WOMBO COMBO!", r: 1.4, p: 0.8},
+            {t: "Oh baby a triple!", r: 1.2, p: 1.2},
+            {t: "Smoke weed everyday", r: 0.8, p: 0.5},
+            {t: "Illuminati Confirmed", r: 0.6, p: 0.1},
+            {t: "Damn son where'd you find this?", r: 1.3, p: 0.8},
+            {t: "GET NOSCOPED", r: 1.8, p: 1.5},
+            {t: "It's over 9000!", r: 1.5, p: 1.5}
+        ];
+
+        function playRandomMeme() {
+            const m = memes[Math.floor(Math.random() * memes.length)];
+            say(m.t, m.r, m.p);
+            spawnPopup(m.t);
+        }
+
+        function spawnPopup(text) {
+            const el = document.createElement('div');
+            el.className = 'meme-popup';
+            el.innerText = text;
+            el.style.left = Math.random() * 80 + '%';
+            el.style.top = Math.random() * 80 + '%';
+            el.style.color = `hsl(${Math.random()*360}, 100%, 50%)`;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function spawnHitmarker(x, y) {
+            const h = document.createElement('div');
+            h.className = 'hitmarker';
+            h.style.left = (x - 20) + 'px';
+            h.style.top = (y - 20) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 200);
+            playAudioTone(1000, 'triangle'); // beep sound
+        }
+
+        // --- AUDIO TONE GENERATOR (For hitmarkers) ---
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+        function playAudioTone(freq, type) {
             const osc = audioCtx.createOscillator();
-            const g = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-            g.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.1);
-            osc.connect(g); g.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-
-            // 2. Animate Image
-            img.style.display = 'block';
-            img.style.animation = 'throw-arc 1.5s ease-in forwards';
-
-            // 3. Detonate after animation
-            setTimeout(() => {
-                img.style.display = 'none'; // Hide grenade
-                soundBang(); // Play loud noise
-                overlay.classList.add('blind'); // Turn screen white
-                
-                // Remove white screen class after animation
-                setTimeout(() => {
-                    overlay.classList.remove('blind');
-                    if(callback) callback();
-                }, 3000); // 3 seconds blind
-            }, 1500);
+            const gain = audioCtx.createGain();
+            osc.type = type; osc.frequency.value = freq;
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.1);
         }
 
         // --- GAME LOGIC ---
-        function initSite() {
-            initAudio(); // UNLOCK SOUNDS
-            speak("Tactical Nuke Incoming. Good luck.");
+        function startSequence() {
             document.getElementById('intro').classList.add('hidden');
-            document.getElementById('game-ui').classList.remove('hidden');
-            startGame();
+            document.getElementById('geo-ui').classList.remove('hidden');
+            say("Welcome to the cringe zone.");
+            audioCtx.resume();
+            startGeo();
         }
 
-        // Simple Geo Dash Clone
-        let player = {y:250, dy:0, grounded:true};
-        let obstacles = [];
-        let score = 0;
-        let gameActive = false;
-        let canvas, ctx;
+        // --- 1. EASIER GEO DASH ---
+        function startGeo() {
+            const c = document.getElementById('game-canvas');
+            const ctx = c.getContext('2d');
+            let player = {y: 200, dy: 0, grounded: true};
+            let obstacles = [];
+            let score = 0;
+            let active = true;
+            let frame = 0;
 
-        function startGame() {
-            canvas = document.getElementById('game-canvas');
-            ctx = canvas.getContext('2d');
-            gameActive = true;
-            document.body.onkeydown = (e) => { if(e.code==='Space') jump(); }
+            const jump = () => {
+                if(player.grounded) {
+                    player.dy = -12; // Lower jump force (easier)
+                    player.grounded = false;
+                    spawnPopup("JUMP!");
+                }
+            };
+            document.body.onkeydown = (e) => { if(e.code==='Space') jump(); };
             document.body.ontouchstart = jump;
-            document.body.onclick = jump; // Any click jumps
-            gameLoop();
-        }
+            document.body.onclick = jump;
 
-        function jump() {
-            if(player.grounded) {
-                player.dy = -15; player.grounded = false;
-                soundJump();
-            }
-        }
+            function loop() {
+                if(!active) return;
+                requestAnimationFrame(loop);
+                ctx.fillStyle = '#111'; ctx.fillRect(0,0,600,300);
 
-        function gameLoop() {
-            if(!gameActive) return;
-            requestAnimationFrame(gameLoop);
-            
-            ctx.clearRect(0,0,600,300);
-            
-            // Physics
-            player.dy += 1; // Gravity
-            player.y += player.dy;
-            if(player.y > 250) { player.y = 250; player.grounded = true; }
+                // Physics (Lower gravity = slower fall = easier)
+                player.dy += 0.6; 
+                player.y += player.dy;
+                if(player.y > 250) { player.y = 250; player.grounded = true; player.dy = 0; }
 
-            // Draw Player (Yellow Box)
-            ctx.fillStyle = 'yellow'; ctx.fillRect(50, player.y, 40, 40);
-            ctx.fillStyle = 'black'; ctx.fillRect(70, player.y+10, 10, 10); // sunglasses
-
-            // Spikes
-            if(Math.random() < 0.02) obstacles.push({x:600, type:'spike'});
-            
-            obstacles.forEach((obs, i) => {
-                obs.x -= 8; // Speed
-                ctx.fillStyle = 'red';
-                ctx.beginPath(); 
-                ctx.moveTo(obs.x, 290); ctx.lineTo(obs.x+20, 250); ctx.lineTo(obs.x+40, 290); 
+                // Player (Illuminati Triangle)
+                ctx.fillStyle = 'lime';
+                ctx.beginPath();
+                ctx.moveTo(50, player.y + 30);
+                ctx.lineTo(65, player.y);
+                ctx.lineTo(80, player.y + 30);
                 ctx.fill();
 
-                // Collision
-                if(obs.x < 90 && obs.x > 10 && player.y > 210) {
-                    // HIT SPIKE -> FLASHBANG PUNISHMENT
-                    gameActive = false;
-                    speak("You are trash. Get flashed.");
-                    throwFlashbang(() => {
-                        // Restart game after flash
-                        obstacles = []; score = 0; gameActive = true; gameLoop();
-                    });
+                // Spawning Obstacles (Slower speed, wider gaps)
+                frame++;
+                if(frame % 100 === 0) { // Slower spawn rate
+                    obstacles.push({x: 600, w: 30, h: 40});
                 }
-            });
 
-            obstacles = obstacles.filter(o => o.x > -50);
-            
-            score++;
-            document.getElementById('score').innerText = "SCORE: " + score;
+                ctx.fillStyle = 'red';
+                obstacles.forEach((ob, i) => {
+                    ob.x -= 5; // Slower speed (Easier)
+                    ctx.fillRect(ob.x, 260, ob.w, ob.h);
 
-            if(score > 500) {
-                gameActive = false;
-                speak("Level Complete. Engaging Quiz.");
-                document.getElementById('game-ui').classList.add('hidden');
-                initQuiz();
+                    // Collision (Forgiving hitbox)
+                    if(ob.x < 75 && ob.x + ob.w > 55 && player.y + 30 > 260) {
+                        say("Oof. Try again.");
+                        score = 0; obstacles = []; frame = 0;
+                        document.body.classList.add('shake');
+                        setTimeout(()=>document.body.classList.remove('shake'), 500);
+                    }
+                });
+
+                score++;
+                document.getElementById('geo-score').innerText = "SCORE: " + score + " / 250";
+                
+                if(score > 250) {
+                    active = false;
+                    document.body.onclick = null; // Remove jump listener
+                    say("Ohhhhhhhh! Level Complete!");
+                    startWhack();
+                }
             }
+            loop();
         }
 
-        // --- QUIZ LOGIC ---
-        const qs = [
-            {q: "DOES PINEAPPLE BELONG ON PIZZA?", a: ["YES", "NO", "ONLY IN OHIO"], c: 1},
-            {q: "COMPLETE: SKIBIDI ____", a: ["BOP", "TOILET", "RIZZ"], c: 1}
-        ];
-        let qIdx = 0;
+        // --- 2. WHACK A TROLL ---
+        let wScore = 0;
+        function startWhack() {
+            document.getElementById('geo-ui').classList.add('hidden');
+            document.getElementById('whack-ui').classList.remove('hidden');
+            moveTroll();
+        }
 
-        function initQuiz() {
+        function moveTroll() {
+            if(wScore >= 5) {
+                playRandomMeme();
+                startQuiz();
+                return;
+            }
+            const area = document.getElementById('whack-area');
+            area.innerHTML = ''; // Clear old
+            
+            const btn = document.createElement('div');
+            // Using Trollface Text Art representation
+            btn.innerText = " ( ͡° ͜ʖ ͡°)\nCLICK ME";
+            btn.style.position = 'absolute';
+            btn.style.left = Math.random() * 200 + 'px';
+            btn.style.top = Math.random() * 200 + 'px';
+            btn.style.cursor = 'pointer';
+            btn.style.fontSize = '20px';
+            btn.onclick = (e) => {
+                spawnHitmarker(e.clientX, e.clientY);
+                wScore++;
+                document.getElementById('whack-score').innerText = wScore;
+                say("Hit!");
+                moveTroll();
+            };
+            area.appendChild(btn);
+        }
+
+        // --- 3. OLD SCHOOL QUIZ ---
+        const qData = [
+            {q: "ALL YOUR BASE ARE BELONG TO...", o: ["US", "THEM", "CATS", "SEGA"], a: 0},
+            {q: "DO A BARREL ____", o: ["FLIP", "ROLL", "JUMP", "DAB"], a: 1},
+            {q: "NEVER GONNA GIVE YOU ____", o: ["MONEY", "UP", "DESSERT", "PIZZA"], a: 1},
+            {q: "WHAT DOES THE FOX SAY?", o: ["WOOF", "MEOW", "RING-DING-DING", "SKIBIDI"], a: 2}
+        ];
+        let qIndex = 0;
+
+        function startQuiz() {
+            document.getElementById('whack-ui').classList.add('hidden');
             document.getElementById('quiz-ui').classList.remove('hidden');
             loadQ();
         }
 
         function loadQ() {
-            if(qIdx >= qs.length) { doOutro(); return; }
-            let d = qs[qIdx];
-            document.getElementById('q-text').innerText = d.q;
-            speak(d.q);
-            let h = "";
-            d.a.forEach((opt, i) => {
-                h += `<button class='quiz-btn' onclick='check(${i}, ${d.c})'>${opt}</button>`;
-            });
-            document.getElementById('q-opts').innerHTML = h;
-        }
-
-        function check(i, c) {
-            if(i === c) {
-                speak("Correct.");
-                qIdx++; loadQ();
-            } else {
-                speak("WRONG.");
-                throwFlashbang(); // Punishment
+            if(qIndex >= qData.length) {
+                finishGame();
+                return;
             }
+            const d = qData[qIndex];
+            document.getElementById('q-text').innerText = d.q;
+            const grid = document.getElementById('q-options');
+            grid.innerHTML = '';
+            
+            say(d.q);
+
+            d.o.forEach((opt, i) => {
+                const b = document.createElement('div');
+                b.className = 'quiz-btn';
+                b.innerText = opt;
+                b.onclick = () => {
+                    if(i === d.a) {
+                        spawnPopup("CORRECT!");
+                        qIndex++;
+                        loadQ();
+                    } else {
+                        say("U MAD BRO?");
+                        document.body.classList.add('shake');
+                        setTimeout(()=>document.body.classList.remove('shake'), 500);
+                    }
+                };
+                grid.appendChild(b);
+            });
         }
 
-        function doOutro() {
+        function finishGame() {
             document.getElementById('quiz-ui').classList.add('hidden');
-            document.getElementById('outro').classList.remove('hidden');
+            document.getElementById('ending-ui').classList.remove('hidden');
             
-            const words = ["Eat Pizza", "Sleep", "Goon", "Repeat"];
-            let i = 0;
+            // The OHHHHH Effect
+            say("Ohhhhhhhhhhhhhhhhhhhhhhhhhhhhh! Happy Feet! Wombo Combo!");
+            
+            // Confetti loop
             setInterval(() => {
-                speak(words[i]);
+                spawnPopup("SAMPLE TEXT");
+                spawnPopup("DORITOS");
+                spawnPopup("MTN DEW");
                 document.body.style.filter = `hue-rotate(${Math.random()*360}deg)`;
-                i = (i+1)%4;
-            }, 1000);
+            }, 300);
         }
 
     </script>

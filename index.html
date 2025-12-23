@@ -2,65 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>🍕 PIZZA_TOWER_OHIO_DASH 🚽</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITALIAN BABY BRAINROT.EXE</title>
     <style>
-        /* --- THE UNBEARABLE STYLES --- */
+        /* --- CORE BRAINROT STYLES --- */
         body {
             margin: 0;
-            overflow: hidden;
-            background-color: blue;
-            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
-            color: yellow;
-            text-align: center;
+            background-color: #000;
+            color: lime;
+            font-family: 'Impact', 'Comic Sans MS', sans-serif;
+            overflow: hidden; /* No scroll bars, only chaos */
+            user-select: none;
             cursor: crosshair;
         }
 
-        /* The Warning/Start Screen */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            z-index: 9999;
+        /* CRT SCANLINE EFFECT OVERLAY */
+        body::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .container {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            color: white;
-        }
-
-        #start-btn {
-            font-size: 3rem;
-            padding: 20px;
-            background: red;
-            border: 5px solid yellow;
-            cursor: pointer;
-            animation: pulse 0.5s infinite;
-        }
-
-        /* The Main Chaos Container */
-        #app {
-            display: none; /* Hidden until start */
+            justify-content: center;
             height: 100vh;
             width: 100vw;
-            position: relative;
+            text-align: center;
         }
 
-        /* Animations */
-        @keyframes rainbow-bg {
-            0% { background-color: #008C45; } /* Italian Green */
-            25% { background-color: #F4F5F0; } /* Italian White */
-            50% { background-color: #CD212A; } /* Italian Red */
-            75% { background-color: #0000FF; } /* Blue Screen of Death */
-            100% { background-color: #008C45; }
+        /* --- TEXT EFFECTS --- */
+        h1 { font-size: 4rem; text-transform: uppercase; margin: 0; letter-spacing: 5px; }
+        .italy-text {
+            background: linear-gradient(90deg, #008C45, #F4F9FF, #CD212A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 0px 10px rgba(255,255,255,0.5);
         }
 
-        @keyframes shake {
+        /* --- ANIMATIONS --- */
+        @keyframes earthquake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            10% { transform: translate(-3px, -2px) rotate(-1deg); }
             20% { transform: translate(-3px, 0px) rotate(1deg); }
             30% { transform: translate(3px, 2px) rotate(0deg); }
             40% { transform: translate(1px, -1px) rotate(1deg); }
@@ -71,180 +61,312 @@
             90% { transform: translate(1px, 2px) rotate(0deg); }
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
+        .shake-hard { animation: earthquake 0.1s infinite; }
+        .shake-screen { animation: earthquake 0.5s infinite; } /* Applied to body on wrong answer */
 
-        @keyframes fall {
-            0% { top: -10%; transform: rotate(0deg); }
-            100% { top: 110%; transform: rotate(360deg); }
+        @keyframes rainbow-flash {
+            0% { background-color: #000; }
+            25% { background-color: #220000; }
+            50% { background-color: #002200; }
+            75% { background-color: #000022; }
+            100% { background-color: #000; }
         }
+        .flash { animation: rainbow-flash 0.2s infinite; }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .active-chaos {
-            animation: rainbow-bg 0.2s infinite, shake 0.5s infinite;
-        }
-
-        /* UI Elements */
-        h1 {
-            font-size: 5rem;
-            text-shadow: 5px 5px #ff0000;
-            margin: 0;
-            padding-top: 20px;
-            border: 5px solid white;
-            background: rgba(0,0,0,0.5);
-            display: inline-block;
-        }
-
-        .meme-btn {
-            background: #00ff00;
-            color: blue;
+        .btn {
+            background: red;
+            border: 5px solid yellow;
+            color: white;
             font-size: 2rem;
-            border: 5px dashed red;
-            margin-top: 20px;
             padding: 20px;
-            cursor: pointer;
+            font-family: 'Comic Sans MS';
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 10px 10px 0px blue;
+            transition: 0.1s;
         }
+        .btn:active { transform: translate(5px, 5px); box-shadow: 5px 5px 0px blue; }
 
-        .meme-btn:active {
-            background: white;
-            transform: scale(0.9);
-        }
-
-        /* The Waterfall Items */
-        .falling-item {
-            position: absolute;
-            font-size: 3rem;
-            z-index: 50;
-            pointer-events: none;
-        }
-
-        /* The Subway Surfers Footer Placeholder */
-        .gameplay-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 150px;
-            background: url('https://upload.wikimedia.org/wikipedia/en/8/82/Subway_Surfers_App_Icon.png'); /* Placeholder */
-            background-size: cover;
-            background-repeat: repeat-x;
-            border-top: 5px solid yellow;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            text-shadow: 2px 2px black;
+        /* --- GEO DASH GAME CANVAS --- */
+        #game-canvas {
+            background: #111;
+            border-bottom: 10px solid white;
+            display: none;
+            box-shadow: 0 0 20px lime;
         }
         
-        /* Floating Memes */
-        .floater {
-            position: absolute;
-            font-size: 4rem;
-            animation: pulse 0.2s infinite;
+        /* --- QUIZ STYLES --- */
+        .quiz-container { display: none; width: 80%; max-width: 600px; }
+        .quiz-option {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            background: blue;
+            color: white;
+            font-size: 1.5rem;
+            border: 3px solid white;
+            cursor: pointer;
         }
+        .quiz-option:hover { background: gold; color: black; }
 
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div id="overlay">
-        <h1>WARNING: BRAINROT</h1>
-        <p>CONTAINS FLASHING LIGHTS AND LOUD ITALIAN NOISES</p>
-        <button id="start-btn" onclick="startChaos()">CLICK TO ENTER THE PIZZA TOWER</button>
+    <div id="intro" class="container">
+        <h1 class="italy-text shake-hard">🍕 ITALIAN <br> BRAINROT <br> SIMULATOR 🤌</h1>
+        <p style="font-size: 1.5rem;">Volume 100% Required for MAXIMUM RIZZ</p>
+        <button class="btn" onclick="startGame()">START THE GRINDSET</button>
     </div>
 
-    <div id="app">
-        <h1>GOO GOO <br> GNOCCHI</h1>
-        <br>
-        <button class="meme-btn" onclick="triggerOhhh()">PRESS FOR SPAGHETTI</button>
-        
-        <div id="sound-text" style="font-size: 5rem; color: white; display:none; position:absolute; top:40%; width:100%;">OHHHHHHHH!</div>
+    <div id="geo-dash-ui" class="container hidden">
+        <h2>LEVEL 1: GEOMETRY PIZZA DASH</h2>
+        <p>TAP SCREEN or SPACEBAR to JUMP</p>
+        <canvas id="game-canvas" width="600" height="300"></canvas>
+        <h3 id="geo-score">SCORE: 0 / 500</h3>
+    </div>
 
-        <div class="gameplay-footer">
-            GAMEPLAY FOOTAGE HERE 
+    <div id="quiz-ui" class="container hidden">
+        <h1 class="italy-text">🤌 THE IMPOSSIBLE ITALIAN QUIZ 🤌</h1>
+        <h2 id="q-text">LOADING...</h2>
+        <div id="q-options" style="width: 100%;"></div>
+    </div>
+
+    <div id="ending-ui" class="container hidden">
+        <h1 style="color:red; font-size: 5rem;" class="shake-hard">GOON CAVE UNLOCKED</h1>
+        <div style="font-size: 3rem; line-height: 1.5; font-weight: bold;">
+            <div id="txt1">🍕 EAT PIZZA</div>
+            <div id="txt2">😴 SLEEP</div>
+            <div id="txt3" style="color: red; text-shadow: 0 0 10px red;">👹 GOON</div>
+            <div id="txt4" class="shake-hard">🔁 REPEAT</div>
         </div>
+        <br>
+        <button class="btn" onclick="location.reload()">PRESTIGE RESET</button>
     </div>
 
     <script>
-        const app = document.getElementById('app');
-        const overlay = document.getElementById('overlay');
-        const emojis = ['🍕', '🍝', '🤌', '🇮🇹', '👶', '🥛', '🍅', '💀'];
-        
-        // --- 1. START THE CHAOS ---
-        function startChaos() {
-            overlay.style.display = 'none';
-            app.style.display = 'block';
-            app.classList.add('active-chaos');
-            
-            // Start the waterfalls
-            setInterval(createRain, 50); // Spawns an item every 50ms
-            
-            // Play background music (simulated with alert if no file)
-            // In a real website, use: new Audio('path/to/music.mp3').play();
-            console.log("PLAYING: TARANTELLA TRAP REMIX");
+        // --- AUDIO ENGINE (LOUD TTS) ---
+        const synth = window.speechSynthesis;
+        function sfx(text, rate=1.5, pitch=1.0) {
+            if (synth.speaking) synth.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.rate = rate;
+            u.pitch = pitch;
+            u.volume = 1; // Max volume
+            synth.speak(u);
         }
 
-        // --- 2. THE WATERFALL EFFECT ---
-        function createRain() {
-            const el = document.createElement('div');
-            el.classList.add('falling-item');
-            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-            
-            // Random position
-            el.style.left = Math.random() * 100 + 'vw';
-            
-            // Random speed
-            const duration = Math.random() * 2 + 1; // between 1 and 3 seconds
-            el.style.animation = `fall ${duration}s linear infinite`;
-            
-            app.appendChild(el);
-
-            // Remove element after it falls to save memory
-            setTimeout(() => {
-                el.remove();
-            }, duration * 1000);
+        function boom() {
+            // Fake vine boom using low pitch
+            sfx("B O O M", 0.5, 0.1);
+            document.body.classList.add('flash');
+            setTimeout(() => document.body.classList.remove('flash'), 200);
         }
 
-        // --- 3. THE OHHH MEME EFFECT ---
-        function triggerOhhh() {
-            // Visual Shake Intensity Increase
-            document.body.style.animation = "shake 0.1s infinite";
-            
-            // Flash text
-            const text = document.getElementById('sound-text');
-            text.style.display = 'block';
-            text.innerText = "OHHHHHH!!! 🤌🤌";
-            
-            // Invert colors for a second
-            app.style.filter = "invert(100%)";
+        // --- GLOBAL STATE ---
+        function startGame() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('geo-dash-ui').classList.remove('hidden');
+            sfx("Lets go gamers. Skibidi Geo Dash initiated.");
+            initGeoDash();
+        }
 
-            // Spawn 20 random hitmarkers
-            for(let i=0; i<20; i++) {
-                createFloater();
+        // --- STEP 2: GEOMETRY DASH CLONE ---
+        let canvas, ctx, gameLoop;
+        let player = { x: 50, y: 200, w: 30, h: 30, dy: 0, jumpPower: -12, grounded: false };
+        let gravity = 0.8;
+        let obstacles = [];
+        let gameScore = 0;
+        let gameActive = false;
+        let frameCount = 0;
+
+        function initGeoDash() {
+            canvas = document.getElementById('game-canvas');
+            canvas.style.display = "block";
+            ctx = canvas.getContext('2d');
+            gameActive = true;
+            
+            // Input
+            document.body.onkeydown = (e) => { if(e.code === 'Space') jump(); };
+            document.body.ontouchstart = jump;
+            document.body.onclick = jump;
+
+            loop();
+        }
+
+        function jump() {
+            if(player.grounded) {
+                player.dy = player.jumpPower;
+                player.grounded = false;
+                // Jump sound
+                const sounds = ["Hup!", "Boing!", "Yippee!"];
+                sfx(sounds[Math.floor(Math.random()*sounds.length)], 2, 1.5);
+            }
+        }
+
+        function loop() {
+            if (!gameActive) return;
+
+            requestAnimationFrame(loop);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Physics
+            player.dy += gravity;
+            player.y += player.dy;
+
+            // Ground collision
+            if (player.y + player.h > canvas.height) {
+                player.y = canvas.height - player.h;
+                player.dy = 0;
+                player.grounded = true;
             }
 
-            setTimeout(() => {
-                document.body.style.animation = ""; // Reset shake
-                text.style.display = 'none';
-                app.style.filter = "invert(0%)";
-            }, 1000);
+            // Draw Player (A Toilet/Pizza Cube)
+            ctx.fillStyle = "cyan";
+            ctx.fillRect(player.x, player.y, player.w, player.h);
+            ctx.fillStyle = "white"; // Eye
+            ctx.fillRect(player.x+20, player.y+5, 5, 5);
+
+            // Obstacle Logic
+            frameCount++;
+            if (frameCount % 90 === 0) { // Spawn rate
+                obstacles.push({ x: canvas.width, w: 30, h: 40 });
+            }
+
+            // Update Obstacles
+            ctx.fillStyle = "red";
+            for (let i = 0; i < obstacles.length; i++) {
+                let obs = obstacles[i];
+                obs.x -= 6; // Speed
+
+                // Draw Spikes (Triangle ish)
+                ctx.beginPath();
+                ctx.moveTo(obs.x, canvas.height);
+                ctx.lineTo(obs.x + obs.w/2, canvas.height - obs.h);
+                ctx.lineTo(obs.x + obs.w, canvas.height);
+                ctx.fill();
+
+                // Collision Detection
+                if (player.x < obs.x + obs.w &&
+                    player.x + player.w > obs.x &&
+                    player.y < canvas.height &&
+                    player.y + player.h > canvas.height - obs.h) {
+                        
+                        // DEATH
+                        boom();
+                        sfx("Skill issue. Restarting.");
+                        gameScore = 0;
+                        obstacles = [];
+                        frameCount = 0;
+                }
+            }
+
+            // Cleanup offscreen obstacles
+            obstacles = obstacles.filter(o => o.x > -50);
+
+            // Score
+            gameScore += 1;
+            document.getElementById('geo-score').innerText = `SCORE: ${gameScore} / 500`;
+
+            // WIN CONDITION
+            if (gameScore > 500) {
+                gameActive = false;
+                sfx("Oh baby a triple! Level Complete!");
+                setTimeout(startQuiz, 1000);
+            }
         }
 
-        // --- 4. RANDOM FLOATING MEMES ---
-        function createFloater() {
-            const floater = document.createElement('div');
-            floater.classList.add('floater');
-            floater.innerText = "❌"; // Hitmarker
-            floater.style.left = Math.random() * 80 + 10 + 'vw';
-            floater.style.top = Math.random() * 80 + 10 + 'vh';
-            app.appendChild(floater);
+        // --- STEP 3: ITALIAN BRAINROT QUIZ ---
+        const quizData = [
+            {
+                q: "🤌 COMPLETE THE PHRASE: 'I COOKA DA ____'",
+                opts: ["PIZZA", "MEATBALL", "SPAGHETTI CODE", "FANUM TAX"],
+                a: 1 // meatball
+            },
+            {
+                q: "WHAT IS THE CAPITAL OF OHIO?",
+                opts: ["SKIBIDI TOILET", "RIZZLERVILLE", "COLUMBUS (BORING)", "SIGMA CITY"],
+                a: 0
+            },
+            {
+                q: "SHOULD YOU BREAK THE SPAGHETTI?",
+                opts: ["YES", "NO (MAMMA MIA!)", "ONLY FOR GOONING", "MAYBE"],
+                a: 1
+            }
+        ];
+        let qIdx = 0;
+
+        function startQuiz() {
+            document.getElementById('geo-dash-ui').classList.add('hidden');
+            document.getElementById('quiz-ui').classList.remove('hidden');
+            document.body.onclick = null; // Remove jump listener
+            document.body.onkeydown = null;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (qIdx >= quizData.length) {
+                startEnding();
+                return;
+            }
+            const data = quizData[qIdx];
+            document.getElementById('q-text').innerText = data.q;
+            sfx(data.q, 1.2, 0.8); // Deep voice
+
+            const div = document.getElementById('q-options');
+            div.innerHTML = '';
+            data.opts.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.innerText = opt;
+                btn.className = "quiz-option";
+                btn.onclick = () => checkAnswer(i, data.a);
+                div.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(chosen, correct) {
+            if (chosen === correct) {
+                sfx("Correct! Awesome Pawsome!", 1.5, 1.5);
+                qIdx++;
+                loadQuestion();
+            } else {
+                // PUNISHMENT
+                boom();
+                document.body.classList.add('shake-screen');
+                document.body.style.backgroundColor = "red";
+                sfx("WRONG. NOT VERY SIGMA OF YOU. TRY AGAIN.", 1.2, 0.5);
+                setTimeout(() => {
+                    document.body.classList.remove('shake-screen');
+                    document.body.style.backgroundColor = "black";
+                }, 1000);
+            }
+        }
+
+        // --- STEP 4: MANTRA ---
+        function startEnding() {
+            document.getElementById('quiz-ui').classList.add('hidden');
+            document.getElementById('ending-ui').classList.remove('hidden');
             
-            setTimeout(() => { floater.remove(); }, 500);
+            let mantra = ["Eat Pizza", "Sleep", "Goon", "Repeat"];
+            let i = 0;
+            
+            // Loop the mantra audio forever
+            setInterval(() => {
+                if(i < mantra.length) {
+                    // Highlight text logic could go here
+                    if(i === 2) sfx(mantra[i], 0.5, 0.2); // deep voice for 'goon'
+                    else sfx(mantra[i]);
+                    i++;
+                } else {
+                    i = 0;
+                }
+            }, 1500);
+
+            // Visual chaos
+            setInterval(() => {
+                document.body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+            }, 100);
         }
 
     </script>

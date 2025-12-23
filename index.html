@@ -3,279 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚽 SKIBIDI_RIZZ_L0RD_🇮🇹</title>
+    <title>ITALIAN BABY BRAINROT.EXE</title>
     <style>
-        /* --- CHAOS STYLES --- */
+        /* --- THE UNBEARABLE STYLES --- */
         body {
-            background-color: #050011;
-            color: #00ff00;
-            font-family: 'Comic Sans MS', 'Impact', sans-serif;
-            overflow-x: hidden;
-            text-align: center;
             margin: 0;
-            padding: 0;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="font-size:20px"><text y="15">🍕</text></svg>'), auto;
+            overflow: hidden;
+            background-color: blue;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            color: yellow;
+            text-align: center;
+            cursor: crosshair;
         }
 
-        .container {
+        /* The Warning/Start Screen */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            border: 20px groove gold;
-            background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
-            background-size: 20px 20px;
+            color: white;
         }
 
-        h1 { font-size: 3rem; text-shadow: 4px 4px 0px #ff00de; margin: 10px; }
-        
-        .btn {
-            background: red;
-            color: yellow;
-            font-weight: bold;
-            font-size: 1.5rem;
-            padding: 15px 30px;
-            border: 5px outset white;
-            cursor: pointer;
-            box-shadow: 0 10px 0 darkred;
-            font-family: 'Comic Sans MS';
-            margin: 10px;
-        }
-        .btn:active { box-shadow: 0 5px 0 darkred; transform: translateY(5px); }
-
-        /* ANIMATIONS */
-        @keyframes skibidi-shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            20% { transform: translate(-3px, 0px) rotate(5deg); }
-            40% { transform: translate(1px, -1px) rotate(-5deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            80% { transform: translate(-1px, -1px) rotate(5deg); }
-            100% { transform: translate(1px, -2px) rotate(-5deg); }
-        }
-        .vibrate { animation: skibidi-shake 0.2s infinite; }
-
-        @keyframes rainbow-bg { 
-            0% {background-color: red;} 50% {background-color: blue;} 100% {background-color: red;}
-        }
-        .party-mode { animation: rainbow-bg 0.5s infinite; }
-
-        /* QUIZ STYLES */
-        .quiz-btn { width: 80%; max-width: 400px; display: block; margin: 10px auto; }
-        .italian-bg {
-            background: linear-gradient(90deg, green 33%, white 33%, white 66%, red 66%);
+        #start-btn {
+            font-size: 3rem;
             padding: 20px;
-            border: 5px solid gold;
-            color: black;
-            text-shadow: none;
+            background: red;
+            border: 5px solid yellow;
+            cursor: pointer;
+            animation: pulse 0.5s infinite;
+        }
+
+        /* The Main Chaos Container */
+        #app {
+            display: none; /* Hidden until start */
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes rainbow-bg {
+            0% { background-color: #008C45; } /* Italian Green */
+            25% { background-color: #F4F5F0; } /* Italian White */
+            50% { background-color: #CD212A; } /* Italian Red */
+            75% { background-color: #0000FF; } /* Blue Screen of Death */
+            100% { background-color: #008C45; }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        @keyframes fall {
+            0% { top: -10%; transform: rotate(0deg); }
+            100% { top: 110%; transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .active-chaos {
+            animation: rainbow-bg 0.2s infinite, shake 0.5s infinite;
+        }
+
+        /* UI Elements */
+        h1 {
+            font-size: 5rem;
+            text-shadow: 5px 5px #ff0000;
+            margin: 0;
+            padding-top: 20px;
+            border: 5px solid white;
+            background: rgba(0,0,0,0.5);
+            display: inline-block;
+        }
+
+        .meme-btn {
+            background: #00ff00;
+            color: blue;
+            font-size: 2rem;
+            border: 5px dashed red;
+            margin-top: 20px;
+            padding: 20px;
+            cursor: pointer;
             font-weight: bold;
         }
 
-        .hidden { display: none; }
+        .meme-btn:active {
+            background: white;
+            transform: scale(0.9);
+        }
+
+        /* The Waterfall Items */
+        .falling-item {
+            position: absolute;
+            font-size: 3rem;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        /* The Subway Surfers Footer Placeholder */
+        .gameplay-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: url('https://upload.wikimedia.org/wikipedia/en/8/82/Subway_Surfers_App_Icon.png'); /* Placeholder */
+            background-size: cover;
+            background-repeat: repeat-x;
+            border-top: 5px solid yellow;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            text-shadow: 2px 2px black;
+        }
+        
+        /* Floating Memes */
+        .floater {
+            position: absolute;
+            font-size: 4rem;
+            animation: pulse 0.2s infinite;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container" id="main-container">
+    <div id="overlay">
+        <h1>WARNING: BRAINROT</h1>
+        <p>CONTAINS FLASHING LIGHTS AND LOUD ITALIAN NOISES</p>
+        <button id="start-btn" onclick="startChaos()">CLICK TO ENTER THE PIZZA TOWER</button>
+    </div>
+
+    <div id="app">
+        <h1>GOO GOO <br> GNOCCHI</h1>
+        <br>
+        <button class="meme-btn" onclick="triggerOhhh()">PRESS FOR SPAGHETTI</button>
         
-        <div id="step-1">
-            <h1 class="vibrate">🚽 SKIBIDI TOILET OHIO RIZZ 🚽</h1>
-            <h2 style="color: cyan;">✨ AWESOME PAWSOME EDITION ✨</h2>
-            <p>WARNING: MAY CAUSE BRAINROT</p>
-            <button class="btn" onclick="startNoscope()">ENTER THE GOON CAVE</button>
-        </div>
+        <div id="sound-text" style="font-size: 5rem; color: white; display:none; position:absolute; top:40%; width:100%;">OHHHHHHHH!</div>
 
-        <div id="step-2" class="hidden">
-            <h2>🎯 360 NO-SCOPE: LEGENDARY MODE</h2>
-            <p>HIT THE TOILET 5 TIMES. IT GETS SMALLER.</p>
-            <div style="height: 400px; width: 90vw; position: relative; border: 2px dashed lime; overflow: hidden; background: #000;">
-                <button id="target-btn" class="btn" style="position: absolute; padding: 20px; font-size: 2rem;" onclick="hitTarget()">🚽</button>
-            </div>
-            <h3 id="score">KILLS: 0/5</h3>
+        <div class="gameplay-footer">
+            GAMEPLAY FOOTAGE HERE 
         </div>
-
-        <div id="step-3" class="hidden">
-            <div class="italian-bg">
-                <h1>🤌 THE ITALIAN TEST 🤌</h1>
-                <p>PROVE YOU ARE NOT A SUSSY BAKA</p>
-                <h2 id="question-text">QUESTION 1: WHAT IS HOLY?</h2>
-                <div id="quiz-options">
-                    </div>
-            </div>
-        </div>
-
-        <div id="step-4" class="hidden">
-            <h1 class="vibrate" style="color: lime;">SYSTEM BREACH...</h1>
-            <p>Downloading Rizz Library...</p>
-            <pre id="hack-console" style="text-align: left; color: green; font-size: 10px;"></pre>
-        </div>
-
-        <div id="step-5" class="hidden">
-            <h1 style="font-size: 4rem; color: yellow;">👑 SIGMA GRINDSET ACHIEVED 👑</h1>
-            <div style="font-size: 2.5rem; line-height: 1.8; text-transform: uppercase;">
-                <div>🍕 EAT PIZZA</div>
-                <div>😴 SLEEP</div>
-                <div class="vibrate" style="color: red; font-size: 4rem;">👺 GOON</div>
-                <div>🔁 REPEAT</div>
-            </div>
-            <br>
-            <p>Awesome Pawsome!</p>
-            <button class="btn" onclick="location.reload()">RESET UNIVERSE</button>
-        </div>
-
     </div>
 
     <script>
-        const synth = window.speechSynthesis;
-        let score = 0;
-        let targetSize = 100;
-
-        function speak(text, pitch = 1, rate = 1.2) {
-            if (synth.speaking) synth.cancel(); // Interrupt previous speech
-            const utterThis = new SpeechSynthesisUtterance(text);
-            utterThis.pitch = pitch;
-            utterThis.rate = rate;
-            synth.speak(utterThis);
+        const app = document.getElementById('app');
+        const overlay = document.getElementById('overlay');
+        const emojis = ['🍕', '🍝', '🤌', '🇮🇹', '👶', '🥛', '🍅', '💀'];
+        
+        // --- 1. START THE CHAOS ---
+        function startChaos() {
+            overlay.style.display = 'none';
+            app.style.display = 'block';
+            app.classList.add('active-chaos');
+            
+            // Start the waterfalls
+            setInterval(createRain, 50); // Spawns an item every 50ms
+            
+            // Play background music (simulated with alert if no file)
+            // In a real website, use: new Audio('path/to/music.mp3').play();
+            console.log("PLAYING: TARANTELLA TRAP REMIX");
         }
 
-        // --- STEP 1: START ---
-        function startNoscope() {
-            speak("Skibidi dop dop yes yes. Prepare for battle.");
-            document.getElementById('step-1').classList.add('hidden');
-            document.getElementById('step-2').classList.remove('hidden');
-            moveTarget();
+        // --- 2. THE WATERFALL EFFECT ---
+        function createRain() {
+            const el = document.createElement('div');
+            el.classList.add('falling-item');
+            el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            
+            // Random position
+            el.style.left = Math.random() * 100 + 'vw';
+            
+            // Random speed
+            const duration = Math.random() * 2 + 1; // between 1 and 3 seconds
+            el.style.animation = `fall ${duration}s linear infinite`;
+            
+            app.appendChild(el);
+
+            // Remove element after it falls to save memory
+            setTimeout(() => {
+                el.remove();
+            }, duration * 1000);
         }
 
-        // --- STEP 2: HARDCORE GAME ---
-        function moveTarget() {
-            const btn = document.getElementById('target-btn');
-            const container = btn.parentElement;
+        // --- 3. THE OHHH MEME EFFECT ---
+        function triggerOhhh() {
+            // Visual Shake Intensity Increase
+            document.body.style.animation = "shake 0.1s infinite";
             
-            // Harder movement logic
-            const x = Math.random() * (container.offsetWidth - 100);
-            const y = Math.random() * (container.offsetHeight - 100);
+            // Flash text
+            const text = document.getElementById('sound-text');
+            text.style.display = 'block';
+            text.innerText = "OHHHHHH!!! 🤌🤌";
             
-            btn.style.left = x + 'px';
-            btn.style.top = y + 'px';
-        }
+            // Invert colors for a second
+            app.style.filter = "invert(100%)";
 
-        function hitTarget() {
-            score++;
-            document.getElementById('score').innerText = `KILLS: ${score}/5`;
-            
-            // MAKE IT HARDER: Shrink button
-            const btn = document.getElementById('target-btn');
-            targetSize -= 15;
-            btn.style.padding = (targetSize/4) + "px";
-            btn.style.fontSize = (targetSize/30) + "rem";
-
-            if (score < 5) {
-                const sounds = ["Hit!", "What the sigma?", "Oof", "Bruh"];
-                speak(sounds[Math.floor(Math.random() * sounds.length)]);
-                moveTarget();
-            } else {
-                speak("MOM GET THE CAMERA! WOMBO COMBO!");
-                document.getElementById('step-2').classList.add('hidden');
-                startQuiz();
+            // Spawn 20 random hitmarkers
+            for(let i=0; i<20; i++) {
+                createFloater();
             }
+
+            setTimeout(() => {
+                document.body.style.animation = ""; // Reset shake
+                text.style.display = 'none';
+                app.style.filter = "invert(0%)";
+            }, 1000);
         }
 
-        // --- STEP 3: ITALIAN QUIZ ---
-        let qIndex = 0;
-        const questions = [
-            {
-                q: "DOES PINEAPPLE BELONG ON PIZZA?",
-                options: ["YES (I am cringe)", "NO (I am Sigma)", "MAYBE"],
-                correct: 1
-            },
-            {
-                q: "TRANSLATE: 🤌",
-                options: ["I'm walking here!", "What do you want?", "Spaghetti code"],
-                correct: 1
-            },
-            {
-                q: "COMPLET THE LYRIC: When the moon hits your eye...",
-                options: ["Like a big pizza pie", "It hurts", "Skibidi bop mm dada"],
-                correct: 0
-            }
-        ];
-
-        function startQuiz() {
-            document.getElementById('step-3').classList.remove('hidden');
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            if(qIndex >= questions.length) {
-                // Quiz done
-                startHacking();
-                return;
-            }
-            const q = questions[qIndex];
-            document.getElementById('question-text').innerText = q.q;
-            speak(q.q, 1.5, 0.9); // High pitch Italian robot voice attempt
+        // --- 4. RANDOM FLOATING MEMES ---
+        function createFloater() {
+            const floater = document.createElement('div');
+            floater.classList.add('floater');
+            floater.innerText = "❌"; // Hitmarker
+            floater.style.left = Math.random() * 80 + 10 + 'vw';
+            floater.style.top = Math.random() * 80 + 10 + 'vh';
+            app.appendChild(floater);
             
-            const area = document.getElementById('quiz-options');
-            area.innerHTML = "";
-            
-            q.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = "btn quiz-btn";
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(index, q.correct);
-                area.appendChild(btn);
-            });
+            setTimeout(() => { floater.remove(); }, 500);
         }
-
-        function checkAnswer(chosen, correct) {
-            if(chosen === correct) {
-                speak("Mamma mia, that is correct!");
-                qIndex++;
-                loadQuestion();
-            } else {
-                speak("NOT AWESOME PAWSOME. TRY AGAIN.");
-                document.body.style.backgroundColor = "red";
-                setTimeout(() => document.body.style.backgroundColor = "#050011", 200);
-            }
-        }
-
-        // --- STEP 4 & 5: ENDING ---
-        function startHacking() {
-            document.getElementById('step-3').classList.add('hidden');
-            document.getElementById('step-4').classList.remove('hidden');
-            speak("Uploading pasta to the mainframe.");
-            
-            const consoleDiv = document.getElementById('hack-console');
-            let lines = 0;
-            const interval = setInterval(() => {
-                lines++;
-                consoleDiv.innerHTML += `> HACKING... ${Math.random().toString(36).substring(7)}\n`;
-                if(lines > 20) {
-                    clearInterval(interval);
-                    showFinale();
-                }
-            }, 100);
-        }
-
-        function showFinale() {
-            document.getElementById('step-4').classList.add('hidden');
-            document.getElementById('step-5').classList.remove('hidden');
-            document.body.classList.add('party-mode'); // Flashing background
-
-            speak("Eat Pizza");
-            setTimeout(() => speak("Sleep"), 1000);
-            setTimeout(() => speak("Goon"), 2000);
-            setTimeout(() => speak("Repeat"), 3000);
-            setTimeout(() => speak("Awesome Pawsome baby!"), 4000);
-        }
-
-        // Auto move target for chaos
-        setInterval(() => {
-            if(!document.getElementById('step-2').classList.contains('hidden')) {
-               // Occasionally teleport the target just to be annoying
-               if(Math.random() > 0.7) moveTarget();
-            }
-        }, 800);
 
     </script>
 </body>

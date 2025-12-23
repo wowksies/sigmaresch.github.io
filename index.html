@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>xxx_PR0_GAMER_LIFESTYLE_xxx</title>
+    <style>
+        /* --- THE AESTHETIC --- */
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            overflow-x: hidden;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            cursor: crosshair;
+        }
+
+        h1, h2 {
+            text-shadow: 2px 2px 0px #f00, -2px -2px 0px #00f;
+            text-transform: uppercase;
+        }
+
+        /* Utility Classes for Chaos */
+        .hidden { display: none; }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            border: 10px solid;
+            border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+        }
+
+        .btn {
+            background: red;
+            color: yellow;
+            font-size: 2rem;
+            padding: 20px 40px;
+            border: 5px dashed white;
+            font-family: 'Comic Sans MS';
+            cursor: pointer;
+            transition: 0.1s;
+            box-shadow: 5px 5px 0px blue;
+        }
+        .btn:hover {
+            transform: scale(1.1) rotate(-5deg);
+            background: blue;
+            color: white;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        .spin { animation: spin 0.5s linear infinite; }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        .shake { animation: shake 0.5s infinite; }
+
+        @keyframes rainbow { 
+            0% {color: red;} 20% {color: orange;} 40% {color: yellow;} 
+            60% {color: green;} 80% {color: blue;} 100% {color: violet;}
+        }
+        .rainbow-text { animation: rainbow 0.5s infinite; }
+
+        /* Step Specific Styles */
+        #target-btn {
+            position: absolute;
+            font-size: 1rem;
+            padding: 10px;
+        }
+
+        #final-page {
+            font-size: 3rem;
+            line-height: 1.5;
+        }
+
+        .hitmarker {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            background: transparent;
+            border: 2px solid white;
+            transform: rotate(45deg);
+        }
+        .hitmarker::after {
+            content: "+100";
+            color: white;
+            font-size: 12px;
+            position: absolute;
+            top: -20px;
+        }
+
+        .glitch {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div id="step-1">
+            <h1 class="shake rainbow-text">⚠️ WARNING: DANK LEVELS CRITICAL ⚠️</h1>
+            <p>Are you ready to ascend?</p>
+            <button class="btn" onclick="startJourney()">LET'S GOOOO</button>
+        </div>
+
+        <div id="step-2" class="hidden">
+            <h2 class="spin">NO-SCOPE TRAINING</h2>
+            <p>CLICK THE TARGET TO PROVE YOUR SKILL</p>
+            <div style="height: 300px; width: 300px; position: relative; border: 1px solid green;">
+                <button id="target-btn" class="btn" style="padding: 5px;" onclick="hitTarget()">🎯 CLICK ME</button>
+            </div>
+            <h3 id="score">SCORE: 0/3</h3>
+        </div>
+
+        <div id="step-3" class="hidden">
+            <h1 class="glitch">DOWNLOADING RAM...</h1>
+            <div style="width: 80%; background: #333; height: 30px; margin-top: 20px;">
+                <div id="progress-bar" style="width: 0%; height: 100%; background: lime;"></div>
+            </div>
+            <div id="hack-text" style="font-family: monospace; text-align: left; margin-top: 20px; font-size: 12px; color: green;"></div>
+        </div>
+
+        <div id="step-4" class="hidden">
+            <h1 class="shake rainbow-text" style="font-size: 5rem;">MISSION COMPLETE</h1>
+            <div id="final-page">
+                <div class="shake" style="animation-duration: 2s;">🍕 EAT PIZZA</div>
+                <div class="shake" style="animation-duration: 2.1s;">😴 SLEEP</div>
+                <div class="shake" style="animation-duration: 0.1s; color: red;">👹 GOON</div>
+                <div class="spin" style="margin-top: 20px;">🔁 REPEAT</div>
+            </div>
+            <br><br>
+            <button class="btn" onclick="location.reload()">PRESTIGE (RESTART)</button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- SOUND EFFECTS ENGINE (USING BROWSER TTS) ---
+        function speak(text, pitch = 1, rate = 1) {
+            const synth = window.speechSynthesis;
+            const utterThis = new SpeechSynthesisUtterance(text);
+            utterThis.pitch = pitch;
+            utterThis.rate = rate;
+            synth.speak(utterThis);
+        }
+
+        function playAirhorn() {
+            // Simulating airhorn with oscillator would be annoying code, 
+            // so we use a fast robotic voice saying "Bwah bwah bwah"
+            speak("Bwah bwah bwah!", 0.1, 2);
+        }
+
+        // --- GAME LOGIC ---
+
+        function startJourney() {
+            speak("Initiating swag protocols.");
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+            moveTarget(); // Start moving the button
+        }
+
+        let score = 0;
+        function moveTarget() {
+            const btn = document.getElementById('target-btn');
+            const x = Math.random() * 200;
+            const y = Math.random() * 200;
+            btn.style.transform = `translate(${x}px, ${y}px)`;
+        }
+
+        function hitTarget() {
+            score++;
+            document.getElementById('score').innerText = `SCORE: ${score}/3`;
+            
+            // Visual effect
+            createHitmarker(event.clientX, event.clientY);
+            
+            if(score < 3) {
+                speak("Hitmarker.");
+                moveTarget();
+            } else {
+                speak("Oh baby a triple! Oh yeah!");
+                setTimeout(() => {
+                    startHacking();
+                }, 1000);
+            }
+        }
+
+        function createHitmarker(x, y) {
+            const marker = document.createElement('div');
+            marker.classList.add('hitmarker');
+            marker.style.left = x + 'px';
+            marker.style.top = y + 'px';
+            document.body.appendChild(marker);
+            setTimeout(() => marker.remove(), 500);
+        }
+
+        function startHacking() {
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-3').classList.remove('hidden');
+            
+            let progress = 0;
+            const bar = document.getElementById('progress-bar');
+            const hackText = document.getElementById('hack-text');
+            
+            speak("Downloading internet.");
+
+            const interval = setInterval(() => {
+                progress += Math.random() * 10;
+                if(progress > 100) progress = 100;
+                bar.style.width = progress + "%";
+                
+                // Add matrix text
+                hackText.innerHTML += Math.random().toString(36).substring(7) + " ";
+
+                if(progress === 100) {
+                    clearInterval(interval);
+                    revealTruth();
+                }
+            }, 200);
+        }
+
+        function revealTruth() {
+            document.getElementById('step-3').classList.add('hidden');
+            document.getElementById('step-4').classList.remove('hidden');
+            
+            playAirhorn();
+            
+            // Read the mantra
+            setTimeout(() => speak("Eat Pizza"), 500);
+            setTimeout(() => speak("Sleep"), 1500);
+            setTimeout(() => speak("Goon"), 2500);
+            setTimeout(() => speak("Repeat"), 3500);
+
+            // Add confetti logic here conceptually (flashing bg)
+            setInterval(() => {
+                document.body.style.backgroundColor = 
+                    document.body.style.backgroundColor === 'black' ? '#111' : 'black';
+            }, 100);
+        }
+    </script>
+</body>
+</html>

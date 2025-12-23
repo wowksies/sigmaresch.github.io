@@ -2,355 +2,391 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>nig bob 6.7</title>
+    <title>nig bomb</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-green: #39ff14; --neon-pink: #ff00ff; }
+        /* --- CORE STYLES --- */
         body {
-            margin: 0; background: #000; color: var(--neon-green);
-            font-family: 'Press Start 2P', monospace;
-            overflow: hidden; height: 100vh; user-select: none;
-            cursor: crosshair; text-align: center;
+            margin: 0;
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Comic Sans MS', 'Impact', sans-serif;
+            overflow: hidden;
+            cursor: crosshair;
+            user-select: none;
         }
 
-        /* --- VISUAL EFFECTS --- */
-        .scanlines {
+        /* DYNAMIC BACKGROUND */
+        .bg-chaos {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 4px 100%; pointer-events: none; z-index: 10;
+            background-image: radial-gradient(circle, #111 10%, transparent 10%), radial-gradient(circle, #222 10%, transparent 10%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            z-index: -2;
+            animation: bg-flash 5s infinite;
         }
-        
-        /* Floating Meme Text */
-        .meme-popup {
-            position: absolute;
-            font-size: 1.5rem;
-            color: yellow;
-            text-shadow: 2px 2px red;
-            pointer-events: none;
-            animation: floatUp 1s forwards;
-            z-index: 100;
-            white-space: nowrap;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) rotate(20deg) scale(1.5); opacity: 0; }
+        @keyframes bg-flash {
+            0% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(90deg); }
+            100% { filter: hue-rotate(0deg); }
         }
 
-        /* Hitmarker */
+        /* MEME OVERLAYS */
+        .meme-pop {
+            position: absolute;
+            pointer-events: none;
+            z-index: 500;
+            font-size: 3rem;
+            animation: pop-fade 1s forwards;
+            font-weight: bold;
+            text-shadow: 2px 2px 0 #000;
+        }
+        @keyframes pop-fade {
+            0% { transform: scale(0.5) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.5) rotate(20deg); opacity: 1; }
+            100% { transform: scale(2) rotate(-20deg); opacity: 0; }
+        }
+
         .hitmarker {
-            position: absolute; width: 40px; height: 40px;
-            border: 2px solid white; transform: rotate(45deg);
-            pointer-events: none; z-index: 101;
+            position: absolute;
+            width: 50px; height: 50px;
+            background: transparent;
+            border: 2px solid white;
+            transform: rotate(45deg);
+            z-index: 600;
+            pointer-events: none;
         }
         .hitmarker::before, .hitmarker::after {
             content: ''; position: absolute; background: white;
         }
-        .hitmarker::before { top: 18px; left: -10px; width: 60px; height: 2px; }
-        .hitmarker::after { top: -10px; left: 18px; width: 2px; height: 60px; }
+        .hitmarker::before { top: 22px; left: -10px; width: 70px; height: 2px; }
+        .hitmarker::after { top: -10px; left: 22px; width: 2px; height: 70px; }
 
-        /* Screenshake */
-        .shake { animation: shakeAnim 0.2s infinite; }
-        @keyframes shakeAnim { 0% {transform: translate(0,0);} 25% {transform: translate(5px,5px);} 50% {transform: translate(-5px, 5px);} 75% {transform: translate(5px, -5px);} }
+        /* UI CONTAINERS */
+        .container {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100vh; width: 100vw; text-align: center;
+            position: relative; z-index: 10;
+        }
 
-        /* --- UI ELEMENTS --- */
-        .container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        .hidden { display: none !important; }
+        h1 { font-size: 4rem; text-shadow: 4px 4px 0px red; margin: 0; text-transform: uppercase; }
         
         .btn {
-            background: black; border: 4px solid var(--neon-green); color: white;
-            padding: 20px; font-family: 'Press Start 2P'; font-size: 1.2rem;
-            cursor: pointer; margin-top: 20px;
-            box-shadow: 5px 5px 0px blue;
+            background: linear-gradient(to bottom, #ff0000, #990000);
+            border: 5px outset gold;
+            color: yellow;
+            font-size: 2rem; padding: 20px 40px;
+            font-family: 'Impact'; letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 20px red;
+            transition: 0.1s;
         }
-        .btn:hover { background: blue; color: white; transform: scale(1.1); }
+        .btn:hover { transform: scale(1.1) rotate(-2deg); box-shadow: 0 0 50px yellow; }
 
-        #game-canvas { border: 4px solid white; background: #111; max-width: 95%; }
+        /* GAME CANVAS */
+        #game-canvas {
+            background: #222;
+            border: 5px dashed lime;
+            box-shadow: 0 0 30px lime;
+            display: none;
+        }
 
-        /* Quiz Grid */
-        .quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 90%; max-width: 600px; }
-        .quiz-btn { background: #222; border: 2px solid white; color: yellow; padding: 15px; cursor: pointer; font-family: 'Press Start 2P'; }
-        .quiz-btn:hover { background: red; }
+        /* UTILS */
+        .hidden { display: none !important; }
+        .shake { animation: shake-anim 0.2s infinite; }
+        @keyframes shake-anim {
+            0% { transform: translate(2px, 2px); }
+            25% { transform: translate(-2px, -2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, 2px); }
+        }
+        
+        .rainbow-text {
+            background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: rainbow 1s linear infinite;
+        }
+        @keyframes rainbow { 
+            100% { background-position: 2000px 0; } 
+        }
+
     </style>
 </head>
 <body>
-    <div class="scanlines"></div>
+
+    <div class="bg-chaos"></div>
+    <div id="meme-layer" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
 
     <div id="intro" class="container">
-        <h1 style="color: red; text-shadow: 4px 4px 0 blue;">🔥 MLG PRO LEAGUE 🔥</h1>
-        <p>EPILEPSY WARNING</p>
-        <p>SOUND REQUIRED</p>
-        <button class="btn" onclick="startSequence()">QUICKSCOPE TO START</button>
+        <h1 class="shake">🍕 MLG_BRAINROT_V2 🚽</h1>
+        <h2 style="color: cyan;">NO-SCOPE EDITION</h2>
+        <p>⚠️ WARNING: LOUD MEMES ⚠️</p>
+        <button class="btn" onclick="initSite()">CLICK 2 START</button>
     </div>
 
-    <div id="geo-ui" class="container hidden">
-        <h2 style="color: cyan;">LEVEL 1: SANIC SPEED</h2>
-        <p>Tap / Space to Jump</p>
+    <div id="game-ui" class="container hidden">
+        <h2 class="rainbow-text" style="font-size: 3rem;">DODGE THE HATERS</h2>
+        <p>(Tap or Space to Jump)</p>
         <canvas id="game-canvas" width="600" height="300"></canvas>
-        <h3 id="geo-score">SCORE: 0 / 250</h3>
-    </div>
-
-    <div id="whack-ui" class="container hidden">
-        <h2>LEVEL 2: MEME HUNTER</h2>
-        <p>Click the TROLLFACE!</p>
-        <div id="whack-area" style="width: 300px; height: 300px; position: relative; border: 2px dashed lime;"></div>
-        <h3>SCORE: <span id="whack-score">0</span>/5</h3>
+        <h3 id="score" style="font-size: 2rem; color: yellow;">SCORE: 0</h3>
     </div>
 
     <div id="quiz-ui" class="container hidden">
-        <h1 style="font-size: 1.5rem;">THE INTERNET EXAM</h1>
-        <h2 id="q-text" style="color: yellow; margin-bottom: 20px;">...</h2>
-        <div id="q-options" class="quiz-grid"></div>
+        <h1 style="color: orange;">THE VIBE CHECK</h1>
+        <h2 id="q-text" style="background: rgba(0,0,0,0.8);">...</h2>
+        <div id="q-opts" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
     </div>
 
-    <div id="ending-ui" class="container hidden">
-        <h1 class="shake" style="font-size: 3rem; color: lime;">MISSION PASSED</h1>
-        <h2 style="color: gold;">RESPECT +</h2>
-        <div style="font-size: 1.5rem; line-height: 2;">
-            <div>🍕 EAT PIZZA</div>
-            <div>😴 SLEEP</div>
-            <div style="color: red;">👹 GOON</div>
-            <div>🔁 REPEAT</div>
+    <div id="outro" class="container hidden">
+        <h1 style="font-size: 5rem; color: lime;">MISSION PASSED</h1>
+        <h2 style="color: silver;">RESPECT +</h2>
+        <div style="font-size: 3rem; font-weight: bold; line-height: 1.5; text-transform: uppercase;">
+            <div class="shake">🍕 EAT PIZZA</div>
+            <div class="shake">😴 SLEEP</div>
+            <div class="shake" style="color: red; font-size: 5rem; text-shadow: 0 0 20px white;">👹 GOON</div>
+            <div class="shake">🔁 REPEAT</div>
         </div>
-        <button class="btn" onclick="location.reload()">PRESTIGE MODE</button>
+        <br>
+        <button class="btn" onclick="location.reload()">PRESTIGE (RESTART)</button>
     </div>
 
     <script>
+        // --- AUDIO SYSTEM (MEME SIMULATOR) ---
         const synth = window.speechSynthesis;
-        
-        // --- MEME SOUNDBOARD (Text-to-Speech Tricks) ---
-        function say(text, rate=1.2, pitch=1.0, vol=1) {
-            if(synth.speaking) synth.cancel();
+        let audioCtx;
+
+        function initAudio() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        // Plays text using browser voice, pitched to sound like memes
+        function memeVoice(text, type="normal") {
+            if(synth.speaking) synth.cancel(); // Cut off previous meme
             const u = new SpeechSynthesisUtterance(text);
-            u.rate = rate; u.pitch = pitch; u.volume = vol;
+            u.volume = 1; 
+            
+            if(type === "hype") {
+                u.rate = 1.6; u.pitch = 1.5; // High pitch kid voice
+            } else if (type === "deep") {
+                u.rate = 0.8; u.pitch = 0.5; // Deep demon voice
+            } else if (type === "fast") {
+                u.rate = 2.0; u.pitch = 1.0;
+            }
+
             synth.speak(u);
+            spawnFloatingText(text); // Show text on screen
         }
 
-        const memes = [
-            {t: "MOM GET THE CAMERA!", r: 1.5, p: 1.5},
-            {t: "WOMBO COMBO!", r: 1.4, p: 0.8},
-            {t: "Oh baby a triple!", r: 1.2, p: 1.2},
-            {t: "Smoke weed everyday", r: 0.8, p: 0.5},
-            {t: "Illuminati Confirmed", r: 0.6, p: 0.1},
-            {t: "Damn son where'd you find this?", r: 1.3, p: 0.8},
-            {t: "GET NOSCOPED", r: 1.8, p: 1.5},
-            {t: "It's over 9000!", r: 1.5, p: 1.5}
-        ];
-
-        function playRandomMeme() {
-            const m = memes[Math.floor(Math.random() * memes.length)];
-            say(m.t, m.r, m.p);
-            spawnPopup(m.t);
-        }
-
-        function spawnPopup(text) {
+        // --- VISUAL FX SYSTEM ---
+        function spawnFloatingText(text) {
             const el = document.createElement('div');
-            el.className = 'meme-popup';
             el.innerText = text;
-            el.style.left = Math.random() * 80 + '%';
-            el.style.top = Math.random() * 80 + '%';
+            el.className = 'meme-pop';
+            el.style.left = Math.random() * 80 + 'vw';
+            el.style.top = Math.random() * 80 + 'vh';
             el.style.color = `hsl(${Math.random()*360}, 100%, 50%)`;
-            document.body.appendChild(el);
+            document.getElementById('meme-layer').appendChild(el);
             setTimeout(() => el.remove(), 1000);
         }
 
-        function spawnHitmarker(x, y) {
-            const h = document.createElement('div');
-            h.className = 'hitmarker';
-            h.style.left = (x - 20) + 'px';
-            h.style.top = (y - 20) + 'px';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 200);
-            playAudioTone(1000, 'triangle'); // beep sound
-        }
-
-        // --- AUDIO TONE GENERATOR (For hitmarkers) ---
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const audioCtx = new AudioContext();
-        function playAudioTone(freq, type) {
+        function spawnHitmarker() {
+            const el = document.createElement('div');
+            el.className = 'hitmarker';
+            el.style.left = (Math.random() * 80 + 10) + 'vw';
+            el.style.top = (Math.random() * 80 + 10) + 'vh';
+            document.getElementById('meme-layer').appendChild(el);
+            
+            // "Thwip" sound simulation
             const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = type; osc.frequency.value = freq;
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.1);
+            const g = audioCtx.createGain();
+            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            osc.connect(g); g.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+
+            setTimeout(() => el.remove(), 200);
         }
 
-        // --- GAME LOGIC ---
-        function startSequence() {
+        function triggerMemeEvent() {
+            const memes = ["🔺", "🐕", "🐸", "💀", "🚽", "🍕"];
+            const m = memes[Math.floor(Math.random() * memes.length)];
+            spawnFloatingText(m);
+        }
+
+        // --- GAME LOGIC (EASIER NOW) ---
+        function initSite() {
+            initAudio();
+            memeVoice("Let's go gamers!", "hype");
             document.getElementById('intro').classList.add('hidden');
-            document.getElementById('geo-ui').classList.remove('hidden');
-            say("Welcome to the cringe zone.");
-            audioCtx.resume();
-            startGeo();
+            document.getElementById('game-ui').classList.remove('hidden');
+            startGame();
         }
 
-        // --- 1. EASIER GEO DASH ---
-        function startGeo() {
-            const c = document.getElementById('game-canvas');
-            const ctx = c.getContext('2d');
-            let player = {y: 200, dy: 0, grounded: true};
-            let obstacles = [];
-            let score = 0;
-            let active = true;
-            let frame = 0;
+        let canvas, ctx, gameLoopId;
+        let player = { x: 50, y: 220, w: 40, h: 40, dy: 0, grounded: false };
+        let obstacles = [];
+        let score = 0;
+        let speed = 5; // Slower speed (Easier)
 
-            const jump = () => {
-                if(player.grounded) {
-                    player.dy = -12; // Lower jump force (easier)
-                    player.grounded = false;
-                    spawnPopup("JUMP!");
-                }
-            };
-            document.body.onkeydown = (e) => { if(e.code==='Space') jump(); };
-            document.body.ontouchstart = jump;
-            document.body.onclick = jump;
-
-            function loop() {
-                if(!active) return;
-                requestAnimationFrame(loop);
-                ctx.fillStyle = '#111'; ctx.fillRect(0,0,600,300);
-
-                // Physics (Lower gravity = slower fall = easier)
-                player.dy += 0.6; 
-                player.y += player.dy;
-                if(player.y > 250) { player.y = 250; player.grounded = true; player.dy = 0; }
-
-                // Player (Illuminati Triangle)
-                ctx.fillStyle = 'lime';
-                ctx.beginPath();
-                ctx.moveTo(50, player.y + 30);
-                ctx.lineTo(65, player.y);
-                ctx.lineTo(80, player.y + 30);
-                ctx.fill();
-
-                // Spawning Obstacles (Slower speed, wider gaps)
-                frame++;
-                if(frame % 100 === 0) { // Slower spawn rate
-                    obstacles.push({x: 600, w: 30, h: 40});
-                }
-
-                ctx.fillStyle = 'red';
-                obstacles.forEach((ob, i) => {
-                    ob.x -= 5; // Slower speed (Easier)
-                    ctx.fillRect(ob.x, 260, ob.w, ob.h);
-
-                    // Collision (Forgiving hitbox)
-                    if(ob.x < 75 && ob.x + ob.w > 55 && player.y + 30 > 260) {
-                        say("Oof. Try again.");
-                        score = 0; obstacles = []; frame = 0;
-                        document.body.classList.add('shake');
-                        setTimeout(()=>document.body.classList.remove('shake'), 500);
-                    }
-                });
-
-                score++;
-                document.getElementById('geo-score').innerText = "SCORE: " + score + " / 250";
-                
-                if(score > 250) {
-                    active = false;
-                    document.body.onclick = null; // Remove jump listener
-                    say("Ohhhhhhhh! Level Complete!");
-                    startWhack();
-                }
-            }
+        function startGame() {
+            canvas = document.getElementById('game-canvas');
+            canvas.style.display = "block";
+            ctx = canvas.getContext('2d');
+            
+            document.addEventListener('keydown', (e) => { if(e.code === 'Space') jump(); });
+            document.addEventListener('touchstart', jump);
+            document.addEventListener('click', jump);
+            
             loop();
         }
 
-        // --- 2. WHACK A TROLL ---
-        let wScore = 0;
-        function startWhack() {
-            document.getElementById('geo-ui').classList.add('hidden');
-            document.getElementById('whack-ui').classList.remove('hidden');
-            moveTroll();
-        }
-
-        function moveTroll() {
-            if(wScore >= 5) {
-                playRandomMeme();
-                startQuiz();
-                return;
+        function jump() {
+            if(player.grounded) {
+                player.dy = -13; // Higher jump
+                player.grounded = false;
+                memeVoice("Hup!", "fast");
             }
-            const area = document.getElementById('whack-area');
-            area.innerHTML = ''; // Clear old
-            
-            const btn = document.createElement('div');
-            // Using Trollface Text Art representation
-            btn.innerText = " ( ͡° ͜ʖ ͡°)\nCLICK ME";
-            btn.style.position = 'absolute';
-            btn.style.left = Math.random() * 200 + 'px';
-            btn.style.top = Math.random() * 200 + 'px';
-            btn.style.cursor = 'pointer';
-            btn.style.fontSize = '20px';
-            btn.onclick = (e) => {
-                spawnHitmarker(e.clientX, e.clientY);
-                wScore++;
-                document.getElementById('whack-score').innerText = wScore;
-                say("Hit!");
-                moveTroll();
-            };
-            area.appendChild(btn);
         }
 
-        // --- 3. OLD SCHOOL QUIZ ---
-        const qData = [
-            {q: "ALL YOUR BASE ARE BELONG TO...", o: ["US", "THEM", "CATS", "SEGA"], a: 0},
-            {q: "DO A BARREL ____", o: ["FLIP", "ROLL", "JUMP", "DAB"], a: 1},
-            {q: "NEVER GONNA GIVE YOU ____", o: ["MONEY", "UP", "DESSERT", "PIZZA"], a: 1},
-            {q: "WHAT DOES THE FOX SAY?", o: ["WOOF", "MEOW", "RING-DING-DING", "SKIBIDI"], a: 2}
+        function loop() {
+            gameLoopId = requestAnimationFrame(loop);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Physics
+            player.dy += 0.6; // Lower gravity (Easier)
+            player.y += player.dy;
+            
+            // Ground collision
+            if(player.y > 250) { 
+                player.y = 250; 
+                player.dy = 0; 
+                player.grounded = true; 
+            }
+
+            // Draw Player (Doge Box)
+            ctx.fillStyle = "orange";
+            ctx.fillRect(player.x, player.y, player.w, player.h);
+            ctx.font = "30px Arial";
+            ctx.fillText("🐕", player.x, player.y + 30);
+
+            // Spawn Obstacles (Less frequent = Easier)
+            if(Math.random() < 0.01) { // 1% chance per frame
+                obstacles.push({ x: canvas.width, w: 30, h: 50 });
+            }
+
+            // Draw Obstacles (Doritos)
+            obstacles.forEach((obs, index) => {
+                obs.x -= speed;
+                ctx.font = "30px Arial";
+                ctx.fillText("🔺", obs.x, 290); // Illuminati/Dorito spike
+
+                // Collision Detection (Smaller hitbox for mercy)
+                if(player.x < obs.x + 20 && 
+                   player.x + 30 > obs.x && 
+                   player.y > 240) {
+                    gameOver();
+                }
+            });
+
+            // Cleanup
+            obstacles = obstacles.filter(o => o.x > -50);
+
+            // Score & Memes
+            score++;
+            document.getElementById('score').innerText = "SCORE: " + score;
+            
+            if(score % 100 === 0) {
+                spawnHitmarker();
+                triggerMemeEvent();
+                memeVoice("Wow!", "hype");
+            }
+
+            if(score > 600) { // Win condition
+                cancelAnimationFrame(gameLoopId);
+                winGame();
+            }
+        }
+
+        function gameOver() {
+            // Instead of full reset, we just knock them back
+            memeVoice("Damn son!", "deep");
+            obstacles = []; // Clear obstacles for mercy
+            player.y = 200;
+            spawnFloatingText("OOF");
+            document.body.style.backgroundColor = "red";
+            setTimeout(() => document.body.style.backgroundColor = "black", 100);
+        }
+
+        function winGame() {
+            document.getElementById('game-ui').classList.add('hidden');
+            document.getElementById('quiz-ui').classList.remove('hidden');
+            memeVoice("OH BABY A TRIPLE! OH YEAH!", "hype");
+            // The OHHHHHH Effect
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 1000);
+            startQuiz();
+        }
+
+        // --- QUIZ LOGIC ---
+        const questions = [
+            { q: "WHAT IS THE BEST FOOD?", a: ["PIZZA", "SALAD", "ROCKS"], c: 0 },
+            { q: "MOM GET THE _____", a: ["MILK", "CAMERA", "CAR"], c: 1 },
+            { q: "MLG STANDS FOR?", a: ["MAJOR LEAGUE GAMING", "MY LIL GOON", "MOMS LOVE GREG"], c: 0 }
         ];
-        let qIndex = 0;
+        let qIdx = 0;
 
         function startQuiz() {
-            document.getElementById('whack-ui').classList.add('hidden');
-            document.getElementById('quiz-ui').classList.remove('hidden');
-            loadQ();
+            showQ();
         }
 
-        function loadQ() {
-            if(qIndex >= qData.length) {
-                finishGame();
+        function showQ() {
+            if(qIdx >= questions.length) {
+                endScreen();
                 return;
             }
-            const d = qData[qIndex];
-            document.getElementById('q-text').innerText = d.q;
-            const grid = document.getElementById('q-options');
-            grid.innerHTML = '';
+            let curr = questions[qIdx];
+            document.getElementById('q-text').innerText = curr.q;
+            memeVoice(curr.q, "normal");
             
-            say(d.q);
-
-            d.o.forEach((opt, i) => {
-                const b = document.createElement('div');
-                b.className = 'quiz-btn';
-                b.innerText = opt;
-                b.onclick = () => {
-                    if(i === d.a) {
-                        spawnPopup("CORRECT!");
-                        qIndex++;
-                        loadQ();
-                    } else {
-                        say("U MAD BRO?");
-                        document.body.classList.add('shake');
-                        setTimeout(()=>document.body.classList.remove('shake'), 500);
-                    }
-                };
-                grid.appendChild(b);
+            const cont = document.getElementById('q-opts');
+            cont.innerHTML = "";
+            curr.a.forEach((ans, i) => {
+                let btn = document.createElement('button');
+                btn.className = "btn";
+                btn.style.margin = "10px";
+                btn.innerText = ans;
+                btn.onclick = () => checkAns(i, curr.c);
+                cont.appendChild(btn);
             });
         }
 
-        function finishGame() {
+        function checkAns(idx, correct) {
+            if(idx === correct) {
+                spawnHitmarker();
+                memeVoice("SAMPLE TEXT", "hype"); // Random celebration
+                qIdx++;
+                showQ();
+            } else {
+                memeVoice("Sad Violin Noises", "deep");
+                document.body.style.filter = "grayscale(100%)";
+                setTimeout(() => document.body.style.filter = "none", 500);
+            }
+        }
+
+        function endScreen() {
             document.getElementById('quiz-ui').classList.add('hidden');
-            document.getElementById('ending-ui').classList.remove('hidden');
+            document.getElementById('outro').classList.remove('hidden');
             
-            // The OHHHHH Effect
-            say("Ohhhhhhhhhhhhhhhhhhhhhhhhhhhhh! Happy Feet! Wombo Combo!");
-            
-            // Confetti loop
+            // Loop the mantra
+            const mantra = ["Eat Pizza", "Sleep", "Goon", "Repeat"];
+            let i = 0;
             setInterval(() => {
-                spawnPopup("SAMPLE TEXT");
-                spawnPopup("DORITOS");
-                spawnPopup("MTN DEW");
-                document.body.style.filter = `hue-rotate(${Math.random()*360}deg)`;
-            }, 300);
+                memeVoice(mantra[i], i===2 ? "deep" : "normal"); // Deep voice for GOON
+                spawnHitmarker();
+                i = (i+1)%mantra.length;
+            }, 1200);
         }
 
     </script>

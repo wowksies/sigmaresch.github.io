@@ -2,384 +2,351 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🚨 SKIBIDI_FLASHBANG_MAX_VOL 🚨</title>
+    <title>🍕 ITALIAN_BRAINROT_LAG_SIM 🤌</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* --- GLOBAL CHAOS --- */
+        /* --- AESTHETICS & LAG VISUALS --- */
         body {
             margin: 0;
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Courier New', monospace;
+            background-color: #050505;
+            color: #fff;
+            font-family: 'Comic Sans MS', 'Impact', sans-serif;
             overflow: hidden;
-            cursor: crosshair;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" style="font-size:25px"><text y="25">🤌</text></svg>'), auto;
         }
 
-        /* BACKGROUND IMAGE TILES (Pizza/Toilet) */
-        .bg-tiled {
+        /* The "Lag" Layer - CSS that looks glitchy */
+        .glitch-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><text y="40" font-size="40">🍕</text></svg>'),
-                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><text y="40" font-size="40">🚽</text></svg>');
-            background-position: 0 0, 30px 30px;
-            opacity: 0.2;
-            z-index: -1;
-            animation: scroll-bg 1s linear infinite;
-        }
-        @keyframes scroll-bg {
-            0% { background-position: 0 0, 30px 30px; }
-            100% { background-position: 60px 60px, 90px 90px; }
-        }
-
-        /* --- THE FLASHBANG OVERLAY --- */
-        #flash-layer {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: white;
-            opacity: 0;
+            background: linear-gradient(45deg, rgba(0,255,0,0.1), rgba(255,0,0,0.1), rgba(0,0,255,0.1));
             pointer-events: none;
-            z-index: 9999;
-        }
-        .blinded { animation: flash-blind 4s ease-out forwards; }
-        
-        @keyframes flash-blind {
-            0% { opacity: 1; background: white; }
-            10% { opacity: 1; background: white; }
-            100% { opacity: 0; }
+            z-index: 5;
+            animation: chromatic 2s infinite alternate;
+            mix-blend-mode: exclusion;
         }
 
-        /* --- GRENADE SVG ANIMATION --- */
-        #grenade {
-            position: fixed; bottom: -100px; right: -100px;
-            width: 100px;
-            z-index: 5000;
-            display: none;
-        }
-        .throw-grenade {
-            display: block !important;
-            animation: toss 1.5s ease-out forwards;
-        }
-        @keyframes toss {
-            0% { bottom: -100px; right: -100px; transform: rotate(0deg); }
-            50% { bottom: 50%; right: 50%; transform: rotate(-360deg) scale(2); }
-            100% { bottom: 50%; right: 50%; transform: rotate(-720deg) scale(2); }
+        @keyframes chromatic {
+            0% { transform: translate(2px, 0) scale(1.01); }
+            25% { transform: translate(-2px, 2px) skew(2deg); }
+            50% { transform: translate(2px, -2px) scale(0.99); }
+            75% { transform: translate(-2px, 0) skew(-2deg); }
+            100% { transform: translate(2px, 2px) scale(1.01); }
         }
 
-        /* --- CRAZY BUTTONS --- */
-        .insane-btn {
-            background: red;
-            color: yellow;
-            border: 5px solid lime;
+        /* Background Particle Spam */
+        .particle {
+            position: absolute;
             font-size: 2rem;
-            padding: 20px 40px;
-            font-weight: 900;
-            text-transform: uppercase;
-            cursor: pointer;
+            pointer-events: none;
+            animation: float-up 3s linear infinite;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- UI ELEMENTS --- */
+        .container {
             position: relative;
-            box-shadow: 10px 10px 0 blue;
-            transition: 0.05s;
-            animation: wiggle 0.5s infinite;
-        }
-        .insane-btn:hover {
-            animation: seizure 0.1s infinite;
-            background: blue;
-            color: white;
-            transform: scale(1.2) rotate(5deg);
-            border-color: magenta;
-            box-shadow: -10px -10px 0 yellow;
-        }
-
-        @keyframes wiggle { 0% {transform: rotate(1deg);} 50% {transform: rotate(-1deg);} 100% {transform: rotate(1deg);} }
-        @keyframes seizure {
-            0% { transform: translate(2px, 2px) rotate(0deg); filter: hue-rotate(0deg); }
-            25% { transform: translate(-2px, -2px) rotate(-5deg); filter: hue-rotate(90deg); }
-            50% { transform: translate(2px, -2px) rotate(5deg); filter: hue-rotate(180deg); }
-            75% { transform: translate(-2px, 2px) rotate(-5deg); filter: hue-rotate(270deg); }
-            100% { transform: translate(2px, 2px) rotate(0deg); filter: hue-rotate(360deg); }
-        }
-
-        /* --- UI LAYOUT --- */
-        .screen {
+            z-index: 10;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; width: 100vw; text-align: center;
-            position: absolute; top: 0; left: 0;
-            background: rgba(0,0,0,0.8);
+            height: 100vh; width: 100vw;
+            backdrop-filter: blur(5px);
+            text-align: center;
         }
-        .hidden { display: none !important; }
 
         h1 {
-            font-size: 4rem;
-            text-shadow: 4px 4px 0 #ff0000;
-            animation: glitch-text 0.2s infinite;
-        }
-        @keyframes glitch-text {
-            0% { text-shadow: 4px 4px 0 red; transform: translate(0,0); }
-            20% { text-shadow: -4px 4px 0 blue; transform: translate(2px,2px); }
-            40% { text-shadow: -4px -4px 0 lime; transform: translate(-2px,2px); }
-            60% { text-shadow: 4px -4px 0 yellow; transform: translate(2px,-2px); }
-            80% { text-shadow: 4px 0px 0 magenta; transform: translate(-2px,-2px); }
+            font-size: 5rem;
+            /* Italian Flag Gradient Text */
+            background: linear-gradient(90deg, #008C45, #F4F9FF, #CD212A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.8));
+            animation: shake 2s infinite;
         }
 
-        /* CANVAS */
-        canvas { border: 5px solid white; box-shadow: 0 0 50px red; background: #111; }
+        .btn {
+            background: #222;
+            border: 4px solid #fff;
+            color: #fff;
+            font-size: 2rem;
+            padding: 20px 50px;
+            cursor: pointer;
+            box-shadow: 10px 10px 0px #008C45, -10px -10px 0px #CD212A;
+            transition: 0.2s;
+            font-family: 'Impact';
+            letter-spacing: 2px;
+        }
+        .btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            background: white;
+            color: black;
+            box-shadow: 0 0 50px gold;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes shake {
+            0% { transform: translate(0,0) rotate(0deg); }
+            2% { transform: translate(5px,5px) rotate(2deg); }
+            4% { transform: translate(-5px,-5px) rotate(-2deg); }
+            6% { transform: translate(0,0) rotate(0deg); }
+            100% { transform: translate(0,0) rotate(0deg); }
+        }
+
+        .hidden { display: none !important; }
+
+        /* --- GAME CANVAS --- */
+        #game-canvas {
+            background: #111;
+            border: 10px groove gold;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-tiled"></div>
-    <div id="flash-layer"></div>
-    
-    <svg id="grenade" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-        <rect x="30" y="50" width="40" height="100" rx="5" fill="#444" stroke="black" stroke-width="2"/>
-        <rect x="25" y="40" width="50" height="10" fill="#ccc" stroke="black"/>
-        <rect x="40" y="20" width="10" height="30" fill="#ccc" stroke="black"/> <circle cx="70" cy="45" r="8" fill="none" stroke="silver" stroke-width="2"/> <text x="35" y="100" fill="white" font-weight="bold" font-family="Arial">M84</text>
-        <path d="M 30 70 L 70 70" stroke="black"/>
-        <path d="M 30 90 L 70 90" stroke="black"/>
-    </svg>
+    <div class="glitch-layer"></div>
+    <div id="particle-container"></div>
 
-    <div id="step-init" class="screen">
-        <h1 style="color:red;">⚠️ WARNING ⚠️</h1>
-        <h2>LOUD SOUNDS & FLASHING LIGHTS</h2>
-        <br>
-        <button class="insane-btn" onclick="initSystem()">INITIALIZE CHAOS</button>
+    <div id="intro" class="container">
+        <h1>🤌 ITALIAN <br> BRAINROT 🤌</h1>
+        <h2 style="color: yellow; text-shadow: 2px 2px 0 red;">CAUTION: HIGH CPU USAGE AESTHETIC</h2>
+        <p>Volume Up for Meme Sounds</p>
+        <button class="btn" onclick="startChaos()">START DA PIZZA</button>
     </div>
 
-    <div id="step-game" class="screen hidden">
-        <h1>DODGE THE SPIKES</h1>
-        <canvas id="gameCanvas" width="600" height="300"></canvas>
-        <h2 id="score">SCORE: 0</h2>
+    <div id="game-ui" class="container hidden">
+        <h2 style="font-size: 3rem; color: cyan;">LEVEL 1: OHIO DASH</h2>
+        <p>Hold SPACE or CLICK to fly (Easy Mode)</p>
+        <canvas id="game-canvas" width="600" height="300"></canvas>
+        <h3 id="score">SCORE: 0</h3>
     </div>
 
-    <div id="step-quiz" class="screen hidden">
-        <h1>THE BRAINROT TEST</h1>
-        <h2 id="qText">...</h2>
-        <div id="qOptions"></div>
+    <div id="quiz-ui" class="container hidden">
+        <h1 style="color: lime;">THE VIBE CHECK</h1>
+        <div id="q-box" style="background: rgba(0,0,0,0.8); padding: 20px; border: 2px solid white;">
+            <h2 id="q-text">...</h2>
+            <div id="q-opts"></div>
+        </div>
     </div>
 
-    <div id="step-end" class="screen hidden">
-        <h1 style="font-size: 6rem;">GOON CAVE UNLOCKED</h1>
-        <div style="font-size: 3rem; font-weight: bold; line-height: 1.5; text-transform: uppercase; color: white;">
-            <div class="insane-btn" style="background:transparent; border:none; box-shadow:none;">🍕 EAT PIZZA</div>
-            <div class="insane-btn" style="background:transparent; border:none; box-shadow:none;">😴 SLEEP</div>
-            <div class="insane-btn" style="background:transparent; border:none; box-shadow:none; color:red; font-size:5rem;">👹 GOON</div>
-            <div class="insane-btn" style="background:transparent; border:none; box-shadow:none;">🔁 REPEAT</div>
+    <div id="outro" class="container hidden">
+        <h1 style="font-size: 6rem; line-height: 1;">MAMMA MIA!</h1>
+        <div style="font-size: 4rem; font-weight: bold; text-transform: uppercase;">
+            <div style="color: #008C45;">🍕 EAT PIZZA</div>
+            <div style="color: #F4F9FF; text-shadow: 0 0 10px blue;">😴 SLEEP</div>
+            <div style="color: #CD212A; font-size: 6rem; animation: shake 0.1s infinite;">👹 GOON</div>
+            <div style="color: gold;">🔁 REPEAT</div>
         </div>
         <br>
-        <button class="insane-btn" onclick="location.reload()">PRESTIGE</button>
+        <button class="btn" onclick="location.reload()">PRESTIGE</button>
     </div>
 
     <script>
-        // --- AUDIO ENGINE (RAW SYNTHESIS) ---
-        let audioCtx;
+        // --- AUDIO MEME ENGINE ---
+        // Using synthesis to approximate memes without external files
+        const synth = window.speechSynthesis;
         
-        function initAudio() {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
+        function memeSound(type) {
+            if(synth.speaking) synth.cancel();
+            
+            let text = "";
+            let u = new SpeechSynthesisUtterance();
+            u.volume = 1;
+
+            if (type === "ohhh") {
+                // Simulating "OHHHHHH!" (Rap battle reaction)
+                text = "Ohhhhhhhhhhhhhhhhhhhhhhhhh!"; 
+                u.rate = 1.5; 
+                u.pitch = 1.5;
+            } 
+            else if (type === "boi") {
+                // "Boi what the hell"
+                text = "Boy. What the hell boy."; 
+                u.rate = 1.3; 
+                u.pitch = 0.1; // Deep voice
             }
-        }
-
-        // GENERATE FLASHBANG SOUND (White Noise + Sine Wave)
-        function playFlashSound() {
-            const t = audioCtx.currentTime;
-            
-            // 1. EXPLOSION (White Noise)
-            const bufferSize = audioCtx.sampleRate * 2; // 2 seconds
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
+            else if (type === "italian") {
+                text = "Mamma mia! Spaghetti!";
+                u.lang = "it-IT"; // Try to force Italian accent
+                u.rate = 1.2;
             }
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-            
-            const noiseGain = audioCtx.createGain();
-            noiseGain.gain.setValueAtTime(1, t);
-            noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 1);
-            
-            noise.connect(noiseGain);
-            noiseGain.connect(audioCtx.destination);
-            noise.start();
+            else if (type === "boom") {
+                text = "Boom.";
+                u.rate = 0.5;
+                u.pitch = 0.1;
+            }
 
-            // 2. TINNITUS (High Pitch Ring)
-            const osc = audioCtx.createOscillator();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(3000, t); // 3000Hz Ring
-            
-            const oscGain = audioCtx.createGain();
-            oscGain.gain.setValueAtTime(0.1, t);
-            oscGain.gain.linearRampToValueAtTime(0.2, t + 0.1);
-            oscGain.gain.exponentialRampToValueAtTime(0.001, t + 5); // Rings for 5 seconds
-
-            osc.connect(oscGain);
-            oscGain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(t + 5);
+            u.text = text;
+            synth.speak(u);
         }
 
-        // GENERATE BUTTON/JUMP SOUNDS
-        function playBeep(freq = 400, type = 'square') {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.1);
-        }
-
-        // --- FLASHBANG VISUAL LOGIC ---
-        function triggerFlashbang(callback) {
-            const nade = document.getElementById('grenade');
-            const flash = document.getElementById('flash-layer');
+        // --- LAG GENERATOR (VISUALS) ---
+        function spawnLag() {
+            const emojis = ["🍕", "🚽", "🤌", "💀", "🍝", "🧿"];
+            const container = document.getElementById('particle-container');
             
-            // 1. Throw Grenade
-            nade.classList.add('throw-grenade');
-            
-            // 2. Wait for impact
-            setTimeout(() => {
-                nade.style.display = 'none'; // Hide grenade
-                flash.classList.add('blinded'); // White screen
-                playFlashSound(); // BOOM + RING
-                
-                // 3. Recover
-                setTimeout(() => {
-                    flash.classList.remove('blinded');
-                    nade.classList.remove('throw-grenade');
-                    nade.style.display = ''; // Reset
-                    if (callback) callback();
-                }, 4000); // 4 seconds of blindness
-            }, 1500); // 1.5s throw animation
+            // Spawn 50 particles every second to create visual noise
+            setInterval(() => {
+                for(let i=0; i<5; i++) {
+                    const el = document.createElement('div');
+                    el.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+                    el.className = 'particle';
+                    el.style.left = Math.random() * 100 + 'vw';
+                    el.style.fontSize = (Math.random() * 3 + 1) + 'rem';
+                    el.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    container.appendChild(el);
+                    
+                    // Cleanup to prevent actual browser crash, just visual lag
+                    setTimeout(() => el.remove(), 3000);
+                }
+            }, 200);
         }
 
-        // --- GAME SYSTEM ---
-        function initSystem() {
-            initAudio(); // START SOUND
-            playBeep(600);
-            document.getElementById('step-init').classList.add('hidden');
-            document.getElementById('step-game').classList.remove('hidden');
-            startGame();
+        // --- GAME LOGIC (EASY MODE) ---
+        function startChaos() {
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('game-ui').classList.remove('hidden');
+            spawnLag(); // START THE VISUALS
+            memeSound("ohhh");
+            initGame();
         }
 
-        // Add Hover Sounds to all buttons dynamically
-        document.querySelectorAll('button').forEach(b => {
-            b.onmouseenter = () => {
-                if(audioCtx) playBeep(200, 'sawtooth'); // Bzzt sound
-            };
-        });
-
-        // CANVAS GAME
-        let canvas, ctx, gameLoop;
-        let player = { y: 200, dy: 0, grounded: false };
+        let canvas, ctx;
+        let player = { x: 50, y: 150, dy: 0, grounded: false };
         let obstacles = [];
         let score = 0;
         let gameActive = false;
 
-        function startGame() {
-            canvas = document.getElementById('gameCanvas');
+        function initGame() {
+            canvas = document.getElementById('game-canvas');
             ctx = canvas.getContext('2d');
             gameActive = true;
-            document.body.onkeydown = (e) => { if(e.code==='Space') jump(); };
-            document.body.onclick = jump;
+            
+            // Listeners
+            document.body.onkeydown = (e) => { if(e.code === 'Space') jump(); };
+            document.body.onmousedown = jump;
+            document.body.ontouchstart = jump;
+            
             loop();
         }
 
         function jump() {
-            if(player.grounded) {
-                player.dy = -15; 
-                player.grounded = false;
-                playBeep(600, 'square');
-            }
+            // Very floaty, easy jump
+            player.dy = -8; 
+            player.grounded = false;
         }
 
         function loop() {
             if(!gameActive) return;
             requestAnimationFrame(loop);
-            ctx.clearRect(0,0,600,300);
+            ctx.clearRect(0, 0, 600, 300);
 
-            // Physics
-            player.dy += 1;
+            // Physics (Low Gravity - Easy)
+            player.dy += 0.3; 
             player.y += player.dy;
-            if(player.y > 250) { player.y = 250; player.grounded = true; player.dy=0; }
 
-            // Draw Player (Blue Cube)
-            ctx.fillStyle = '#00f'; ctx.fillRect(50, player.y, 40, 40);
-            ctx.strokeStyle = '#fff'; ctx.strokeRect(50, player.y, 40, 40);
+            // Floor/Ceiling collision
+            if(player.y > 260) { player.y = 260; player.dy = 0; }
+            if(player.y < 0) { player.y = 0; player.dy = 0; }
 
-            // Obstacles
-            if(Math.random() < 0.02) obstacles.push({x:600, w:30, h:50});
-            
+            // Draw Player (Pizza Slice)
+            ctx.font = "40px Arial";
+            ctx.fillText("🍕", player.x, player.y + 30);
+
+            // Obstacles (Slow and Spread out)
+            if(Math.random() < 0.005) { // Very rare spawn
+                obstacles.push({ x: 600, h: 50 });
+            }
+
             obstacles.forEach(o => {
-                o.x -= 8;
-                ctx.fillStyle = 'red';
+                o.x -= 3; // Slow speed
+                
+                // Draw Spike (Red Triangle)
+                ctx.fillStyle = "red";
                 ctx.beginPath();
-                ctx.moveTo(o.x, 290); ctx.lineTo(o.x+15, 240); ctx.lineTo(o.x+30, 290);
+                ctx.moveTo(o.x, 300);
+                ctx.lineTo(o.x + 20, 250);
+                ctx.lineTo(o.x + 40, 300);
                 ctx.fill();
 
-                // HIT DETECTION
-                if(o.x < 90 && o.x > 20 && player.y > 210) {
-                    gameActive = false;
-                    // FLASHBANG PUNISHMENT
-                    triggerFlashbang(() => {
-                        // Restart Game
-                        obstacles = []; score = 0; gameActive = true; loop();
-                    });
+                // Hitbox (Forgiving)
+                if(player.x + 30 > o.x && player.x < o.x + 30 && player.y > 240) {
+                    // Hit!
+                    memeSound("boi");
+                    // Flash screen red but DONT restart (too easy to fail otherwise)
+                    document.body.style.background = "red";
+                    setTimeout(() => document.body.style.background = "#050505", 100);
                 }
             });
+
             obstacles = obstacles.filter(o => o.x > -50);
 
             score++;
-            ctx.fillStyle = 'white'; ctx.font = '20px Courier New';
-            ctx.fillText("SCORE: " + score, 10, 30);
+            document.getElementById('score').innerText = "SCORE: " + score;
 
-            if(score > 500) {
+            // Win condition
+            if(score > 300) {
                 gameActive = false;
+                memeSound("ohhh");
                 startQuiz();
             }
         }
 
-        // --- QUIZ ---
+        // --- QUIZ LOGIC ---
         function startQuiz() {
-            document.getElementById('step-game').classList.add('hidden');
-            document.getElementById('step-quiz').classList.remove('hidden');
-            document.body.onclick = null; // Remove game jump listener
-            loadQuestion();
-        }
+            document.getElementById('game-ui').classList.add('hidden');
+            document.getElementById('quiz-ui').classList.remove('hidden');
+            
+            const q = {
+                text: "WHAT IS THE CAPITAL OF PIZZA?",
+                opts: ["NAPLES", "OHIO", "SKIBIDI"],
+                ans: 1 // Ohio (Meme answer)
+            };
 
-        function loadQuestion() {
-            const q = { t: "COMPLETE: SKIBIDI ____", o: ["TOILET", "RIZZ", "OHIO"], a: 0 };
-            document.getElementById('qText').innerText = q.t;
-            const div = document.getElementById('qOptions');
-            div.innerHTML = "";
-            q.o.forEach((opt, i) => {
+            document.getElementById('q-text').innerText = q.text;
+            const div = document.getElementById('q-opts');
+            q.opts.forEach((opt, i) => {
                 const btn = document.createElement('button');
-                btn.className = "insane-btn";
+                btn.className = "btn";
                 btn.style.margin = "10px";
                 btn.innerText = opt;
                 btn.onclick = () => {
-                    if(i === q.a) {
-                        playBeep(800);
-                        endGame();
+                    if(i === 1) { // Correct
+                         memeSound("ohhh");
+                         endScreen();
                     } else {
-                        triggerFlashbang(); // WRONG ANSWER = FLASHBANG
+                        memeSound("boi"); // Wrong
+                        alert("NOT AESTHETIC. TRY AGAIN.");
                     }
                 };
                 div.appendChild(btn);
             });
         }
 
-        function endGame() {
-            document.getElementById('step-quiz').classList.add('hidden');
-            document.getElementById('step-end').classList.remove('hidden');
-            // Infinite loop of beeps and color changes
+        // --- OUTRO ---
+        function endScreen() {
+            document.getElementById('quiz-ui').classList.add('hidden');
+            document.getElementById('outro').classList.remove('hidden');
+            
+            // Loop the mantra audio
+            const words = ["Eat Pizza", "Sleep", "Goon", "Repeat"];
+            let idx = 0;
             setInterval(() => {
-                document.body.style.filter = `hue-rotate(${Math.random()*360}deg)`;
-                playBeep(Math.random()*1000, 'sawtooth');
-            }, 200);
+                // Highlighting effect
+                document.body.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+                
+                let word = words[idx];
+                let u = new SpeechSynthesisUtterance(word);
+                u.rate = 1.5;
+                if(word === "Goon") { u.pitch = 0.1; u.rate = 0.5; } // Deep voice for funny
+                synth.speak(u);
+
+                idx = (idx + 1) % words.length;
+            }, 1000);
         }
 
     </script>

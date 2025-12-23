@@ -3,261 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>xxx_PR0_GAMER_LIFESTYLE_xxx</title>
+    <title>🚽 SKIBIDI_RIZZ_L0RD_🇮🇹</title>
     <style>
-        /* --- THE AESTHETIC --- */
+        /* --- CHAOS STYLES --- */
         body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #050011;
+            color: #00ff00;
+            font-family: 'Comic Sans MS', 'Impact', sans-serif;
             overflow-x: hidden;
             text-align: center;
             margin: 0;
             padding: 0;
-            cursor: crosshair;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="font-size:20px"><text y="15">🍕</text></svg>'), auto;
         }
 
-        h1, h2 {
-            text-shadow: 2px 2px 0px #f00, -2px -2px 0px #00f;
-            text-transform: uppercase;
-        }
-
-        /* Utility Classes for Chaos */
-        .hidden { display: none; }
-        
         .container {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            border: 10px solid;
-            border-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet) 1;
+            border: 20px groove gold;
+            background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
+        h1 { font-size: 3rem; text-shadow: 4px 4px 0px #ff00de; margin: 10px; }
+        
         .btn {
             background: red;
             color: yellow;
-            font-size: 2rem;
-            padding: 20px 40px;
-            border: 5px dashed white;
-            font-family: 'Comic Sans MS';
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            border: 5px outset white;
             cursor: pointer;
-            transition: 0.1s;
-            box-shadow: 5px 5px 0px blue;
+            box-shadow: 0 10px 0 darkred;
+            font-family: 'Comic Sans MS';
+            margin: 10px;
         }
-        .btn:hover {
-            transform: scale(1.1) rotate(-5deg);
-            background: blue;
-            color: white;
-        }
+        .btn:active { box-shadow: 0 5px 0 darkred; transform: translateY(5px); }
 
-        /* --- ANIMATIONS --- */
-        @keyframes spin { 
-            0% { transform: rotate(0deg); } 
-            100% { transform: rotate(360deg); } 
-        }
-        .spin { animation: spin 0.5s linear infinite; }
-
-        @keyframes shake {
+        /* ANIMATIONS */
+        @keyframes skibidi-shake {
             0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(5deg); }
+            40% { transform: translate(1px, -1px) rotate(-5deg); }
             60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(3px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(1px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(5deg); }
+            100% { transform: translate(1px, -2px) rotate(-5deg); }
         }
-        .shake { animation: shake 0.5s infinite; }
+        .vibrate { animation: skibidi-shake 0.2s infinite; }
 
-        @keyframes rainbow { 
-            0% {color: red;} 20% {color: orange;} 40% {color: yellow;} 
-            60% {color: green;} 80% {color: blue;} 100% {color: violet;}
+        @keyframes rainbow-bg { 
+            0% {background-color: red;} 50% {background-color: blue;} 100% {background-color: red;}
         }
-        .rainbow-text { animation: rainbow 0.5s infinite; }
+        .party-mode { animation: rainbow-bg 0.5s infinite; }
 
-        /* Step Specific Styles */
-        #target-btn {
-            position: absolute;
-            font-size: 1rem;
-            padding: 10px;
-        }
-
-        #final-page {
-            font-size: 3rem;
-            line-height: 1.5;
+        /* QUIZ STYLES */
+        .quiz-btn { width: 80%; max-width: 400px; display: block; margin: 10px auto; }
+        .italian-bg {
+            background: linear-gradient(90deg, green 33%, white 33%, white 66%, red 66%);
+            padding: 20px;
+            border: 5px solid gold;
+            color: black;
+            text-shadow: none;
+            font-weight: bold;
         }
 
-        .hitmarker {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            pointer-events: none;
-            background: transparent;
-            border: 2px solid white;
-            transform: rotate(45deg);
-        }
-        .hitmarker::after {
-            content: "+100";
-            color: white;
-            font-size: 12px;
-            position: absolute;
-            top: -20px;
-        }
-
-        .glitch {
-            position: relative;
-        }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="container" id="main-container">
         
         <div id="step-1">
-            <h1 class="shake rainbow-text">⚠️ WARNING: DANK LEVELS CRITICAL ⚠️</h1>
-            <p>Are you ready to ascend?</p>
-            <button class="btn" onclick="startJourney()">LET'S GOOOO</button>
+            <h1 class="vibrate">🚽 SKIBIDI TOILET OHIO RIZZ 🚽</h1>
+            <h2 style="color: cyan;">✨ AWESOME PAWSOME EDITION ✨</h2>
+            <p>WARNING: MAY CAUSE BRAINROT</p>
+            <button class="btn" onclick="startNoscope()">ENTER THE GOON CAVE</button>
         </div>
 
         <div id="step-2" class="hidden">
-            <h2 class="spin">NO-SCOPE TRAINING</h2>
-            <p>CLICK THE TARGET TO PROVE YOUR SKILL</p>
-            <div style="height: 300px; width: 300px; position: relative; border: 1px solid green;">
-                <button id="target-btn" class="btn" style="padding: 5px;" onclick="hitTarget()">🎯 CLICK ME</button>
+            <h2>🎯 360 NO-SCOPE: LEGENDARY MODE</h2>
+            <p>HIT THE TOILET 5 TIMES. IT GETS SMALLER.</p>
+            <div style="height: 400px; width: 90vw; position: relative; border: 2px dashed lime; overflow: hidden; background: #000;">
+                <button id="target-btn" class="btn" style="position: absolute; padding: 20px; font-size: 2rem;" onclick="hitTarget()">🚽</button>
             </div>
-            <h3 id="score">SCORE: 0/3</h3>
+            <h3 id="score">KILLS: 0/5</h3>
         </div>
 
         <div id="step-3" class="hidden">
-            <h1 class="glitch">DOWNLOADING RAM...</h1>
-            <div style="width: 80%; background: #333; height: 30px; margin-top: 20px;">
-                <div id="progress-bar" style="width: 0%; height: 100%; background: lime;"></div>
+            <div class="italian-bg">
+                <h1>🤌 THE ITALIAN TEST 🤌</h1>
+                <p>PROVE YOU ARE NOT A SUSSY BAKA</p>
+                <h2 id="question-text">QUESTION 1: WHAT IS HOLY?</h2>
+                <div id="quiz-options">
+                    </div>
             </div>
-            <div id="hack-text" style="font-family: monospace; text-align: left; margin-top: 20px; font-size: 12px; color: green;"></div>
         </div>
 
         <div id="step-4" class="hidden">
-            <h1 class="shake rainbow-text" style="font-size: 5rem;">MISSION COMPLETE</h1>
-            <div id="final-page">
-                <div class="shake" style="animation-duration: 2s;">🍕 EAT PIZZA</div>
-                <div class="shake" style="animation-duration: 2.1s;">😴 SLEEP</div>
-                <div class="shake" style="animation-duration: 0.1s; color: red;">👹 GOON</div>
-                <div class="spin" style="margin-top: 20px;">🔁 REPEAT</div>
+            <h1 class="vibrate" style="color: lime;">SYSTEM BREACH...</h1>
+            <p>Downloading Rizz Library...</p>
+            <pre id="hack-console" style="text-align: left; color: green; font-size: 10px;"></pre>
+        </div>
+
+        <div id="step-5" class="hidden">
+            <h1 style="font-size: 4rem; color: yellow;">👑 SIGMA GRINDSET ACHIEVED 👑</h1>
+            <div style="font-size: 2.5rem; line-height: 1.8; text-transform: uppercase;">
+                <div>🍕 EAT PIZZA</div>
+                <div>😴 SLEEP</div>
+                <div class="vibrate" style="color: red; font-size: 4rem;">👺 GOON</div>
+                <div>🔁 REPEAT</div>
             </div>
-            <br><br>
-            <button class="btn" onclick="location.reload()">PRESTIGE (RESTART)</button>
+            <br>
+            <p>Awesome Pawsome!</p>
+            <button class="btn" onclick="location.reload()">RESET UNIVERSE</button>
         </div>
 
     </div>
 
     <script>
-        // --- SOUND EFFECTS ENGINE (USING BROWSER TTS) ---
-        function speak(text, pitch = 1, rate = 1) {
-            const synth = window.speechSynthesis;
+        const synth = window.speechSynthesis;
+        let score = 0;
+        let targetSize = 100;
+
+        function speak(text, pitch = 1, rate = 1.2) {
+            if (synth.speaking) synth.cancel(); // Interrupt previous speech
             const utterThis = new SpeechSynthesisUtterance(text);
             utterThis.pitch = pitch;
             utterThis.rate = rate;
             synth.speak(utterThis);
         }
 
-        function playAirhorn() {
-            // Simulating airhorn with oscillator would be annoying code, 
-            // so we use a fast robotic voice saying "Bwah bwah bwah"
-            speak("Bwah bwah bwah!", 0.1, 2);
-        }
-
-        // --- GAME LOGIC ---
-
-        function startJourney() {
-            speak("Initiating swag protocols.");
+        // --- STEP 1: START ---
+        function startNoscope() {
+            speak("Skibidi dop dop yes yes. Prepare for battle.");
             document.getElementById('step-1').classList.add('hidden');
             document.getElementById('step-2').classList.remove('hidden');
-            moveTarget(); // Start moving the button
+            moveTarget();
         }
 
-        let score = 0;
+        // --- STEP 2: HARDCORE GAME ---
         function moveTarget() {
             const btn = document.getElementById('target-btn');
-            const x = Math.random() * 200;
-            const y = Math.random() * 200;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
+            const container = btn.parentElement;
+            
+            // Harder movement logic
+            const x = Math.random() * (container.offsetWidth - 100);
+            const y = Math.random() * (container.offsetHeight - 100);
+            
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
         }
 
         function hitTarget() {
             score++;
-            document.getElementById('score').innerText = `SCORE: ${score}/3`;
+            document.getElementById('score').innerText = `KILLS: ${score}/5`;
             
-            // Visual effect
-            createHitmarker(event.clientX, event.clientY);
-            
-            if(score < 3) {
-                speak("Hitmarker.");
+            // MAKE IT HARDER: Shrink button
+            const btn = document.getElementById('target-btn');
+            targetSize -= 15;
+            btn.style.padding = (targetSize/4) + "px";
+            btn.style.fontSize = (targetSize/30) + "rem";
+
+            if (score < 5) {
+                const sounds = ["Hit!", "What the sigma?", "Oof", "Bruh"];
+                speak(sounds[Math.floor(Math.random() * sounds.length)]);
                 moveTarget();
             } else {
-                speak("Oh baby a triple! Oh yeah!");
-                setTimeout(() => {
-                    startHacking();
-                }, 1000);
+                speak("MOM GET THE CAMERA! WOMBO COMBO!");
+                document.getElementById('step-2').classList.add('hidden');
+                startQuiz();
             }
         }
 
-        function createHitmarker(x, y) {
-            const marker = document.createElement('div');
-            marker.classList.add('hitmarker');
-            marker.style.left = x + 'px';
-            marker.style.top = y + 'px';
-            document.body.appendChild(marker);
-            setTimeout(() => marker.remove(), 500);
-        }
+        // --- STEP 3: ITALIAN QUIZ ---
+        let qIndex = 0;
+        const questions = [
+            {
+                q: "DOES PINEAPPLE BELONG ON PIZZA?",
+                options: ["YES (I am cringe)", "NO (I am Sigma)", "MAYBE"],
+                correct: 1
+            },
+            {
+                q: "TRANSLATE: 🤌",
+                options: ["I'm walking here!", "What do you want?", "Spaghetti code"],
+                correct: 1
+            },
+            {
+                q: "COMPLET THE LYRIC: When the moon hits your eye...",
+                options: ["Like a big pizza pie", "It hurts", "Skibidi bop mm dada"],
+                correct: 0
+            }
+        ];
 
-        function startHacking() {
-            document.getElementById('step-2').classList.add('hidden');
+        function startQuiz() {
             document.getElementById('step-3').classList.remove('hidden');
-            
-            let progress = 0;
-            const bar = document.getElementById('progress-bar');
-            const hackText = document.getElementById('hack-text');
-            
-            speak("Downloading internet.");
-
-            const interval = setInterval(() => {
-                progress += Math.random() * 10;
-                if(progress > 100) progress = 100;
-                bar.style.width = progress + "%";
-                
-                // Add matrix text
-                hackText.innerHTML += Math.random().toString(36).substring(7) + " ";
-
-                if(progress === 100) {
-                    clearInterval(interval);
-                    revealTruth();
-                }
-            }, 200);
+            loadQuestion();
         }
 
-        function revealTruth() {
+        function loadQuestion() {
+            if(qIndex >= questions.length) {
+                // Quiz done
+                startHacking();
+                return;
+            }
+            const q = questions[qIndex];
+            document.getElementById('question-text').innerText = q.q;
+            speak(q.q, 1.5, 0.9); // High pitch Italian robot voice attempt
+            
+            const area = document.getElementById('quiz-options');
+            area.innerHTML = "";
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "btn quiz-btn";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index, q.correct);
+                area.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(chosen, correct) {
+            if(chosen === correct) {
+                speak("Mamma mia, that is correct!");
+                qIndex++;
+                loadQuestion();
+            } else {
+                speak("NOT AWESOME PAWSOME. TRY AGAIN.");
+                document.body.style.backgroundColor = "red";
+                setTimeout(() => document.body.style.backgroundColor = "#050011", 200);
+            }
+        }
+
+        // --- STEP 4 & 5: ENDING ---
+        function startHacking() {
             document.getElementById('step-3').classList.add('hidden');
             document.getElementById('step-4').classList.remove('hidden');
+            speak("Uploading pasta to the mainframe.");
             
-            playAirhorn();
-            
-            // Read the mantra
-            setTimeout(() => speak("Eat Pizza"), 500);
-            setTimeout(() => speak("Sleep"), 1500);
-            setTimeout(() => speak("Goon"), 2500);
-            setTimeout(() => speak("Repeat"), 3500);
-
-            // Add confetti logic here conceptually (flashing bg)
-            setInterval(() => {
-                document.body.style.backgroundColor = 
-                    document.body.style.backgroundColor === 'black' ? '#111' : 'black';
+            const consoleDiv = document.getElementById('hack-console');
+            let lines = 0;
+            const interval = setInterval(() => {
+                lines++;
+                consoleDiv.innerHTML += `> HACKING... ${Math.random().toString(36).substring(7)}\n`;
+                if(lines > 20) {
+                    clearInterval(interval);
+                    showFinale();
+                }
             }, 100);
         }
+
+        function showFinale() {
+            document.getElementById('step-4').classList.add('hidden');
+            document.getElementById('step-5').classList.remove('hidden');
+            document.body.classList.add('party-mode'); // Flashing background
+
+            speak("Eat Pizza");
+            setTimeout(() => speak("Sleep"), 1000);
+            setTimeout(() => speak("Goon"), 2000);
+            setTimeout(() => speak("Repeat"), 3000);
+            setTimeout(() => speak("Awesome Pawsome baby!"), 4000);
+        }
+
+        // Auto move target for chaos
+        setInterval(() => {
+            if(!document.getElementById('step-2').classList.contains('hidden')) {
+               // Occasionally teleport the target just to be annoying
+               if(Math.random() > 0.7) moveTarget();
+            }
+        }, 800);
+
     </script>
 </body>
 </html>

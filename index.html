@@ -2,350 +2,330 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>📺 RETRO_RIZZ_OVERLOAD 📺</title>
+    <title>🍕 SKIBIDI_OHIO_MAX_VOLUME 🚽</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* --- CORE RETRO & CHAOS STYLES --- */
-        :root {
-            --neon-green: #39ff14;
-            --neon-pink: #ff00ff;
-        }
-
+        /* --- CORE CHAOS --- */
         body {
             margin: 0;
-            background-color: #050505;
-            color: var(--neon-green);
-            font-family: 'Press Start 2P', cursive; /* Pixel Font */
+            background-color: #000;
+            /* CHAOTIC BACKGROUND PATTERN (Pizza & Toilet Data URIs) */
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100"><text y="50" font-size="40">🍕</text></svg>'),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 100 100"><text y="50" font-size="40">🚽</text></svg>');
+            background-repeat: repeat, repeat;
+            background-position: 0 0, 30px 30px;
+            animation: bg-scroll 2s linear infinite;
+            color: lime;
+            font-family: 'Impact', 'Comic Sans MS', sans-serif;
             overflow: hidden;
-            height: 100vh;
-            width: 100vw;
             user-select: none;
             cursor: crosshair;
-            text-transform: uppercase;
+            perspective: 1000px; /* For 3D effects */
         }
 
-        /* --- RETRO CRT EFFECTS --- */
-        /* Scanlines and curvature */
-        body::before {
+        @keyframes bg-scroll {
+            0% { background-position: 0 0, 30px 30px; }
+            100% { background-position: 100px 100px, 130px 130px; }
+        }
+
+        /* CRT SCANLINE OVERLAY */
+        body::after {
             content: " ";
             display: block;
             position: absolute;
             top: 0; left: 0; bottom: 0; right: 0;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
             z-index: 998;
-            background-size: 100% 4px, 4px 100%;
+            background-size: 100% 2px, 3px 100%;
             pointer-events: none;
-            box-shadow: inset 0 0 100px black; /* Vignette */
         }
 
-        /* Static Noise Overlay */
-        .static-noise {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXV0dHR4eHh2dnZ6enp8fHx5eXl/f39+fn5\9fX1zc3Nvb29sbGxra2toaGhnZ2dlZWVkZGRiYmJjY2NxcXFpQpq6AAAAPElEQVR42u3SMQ4AIAgDQLHg/z92FhZ1AgNb070kE3J5a7X699r9r+2+195/be+99v5re++1919777X3X9v7B0ECX0n4FhAAAAAASUVORK5CYII=');
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 997;
-            animation: noiseAnim 0.2s infinite;
-        }
-        @keyframes noiseAnim { 0% {background-position: 0 0;} 100% {background-position: 100px 100px;} }
-
-        /* Chromatic Aberration (RGB Split) text effect */
-        .rgb-text {
-            text-shadow: -2px 0 red, 2px 0 blue;
-        }
-
-        /* --- FLASHBANG & STROBE EFFECTS --- */
-        @keyframes flashFade {
-            0% { background-color: white; opacity: 1; }
-            100% { background-color: transparent; opacity: 0; }
-        }
-        .flashbang-overlay {
+        /* FLASHBANG OVERLAY */
+        #flashbang-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: white;
-            z-index: 9999;
-            display: none;
+            background: white;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-out;
         }
-        .flash-active {
-            display: block;
-            animation: flashFade 4s forwards;
-        }
+        .flashing-now { opacity: 1 !important; transition: none !important; }
 
-        @keyframes strobe-anim {
-            0% { background-color: red; } 50% { background-color: blue; } 100% { background-color: red; }
-        }
-        .strobe-mode { animation: strobe-anim 0.1s infinite; }
-
-        /* --- UI CONTAINERS --- */
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%;
-            width: 100%;
+            height: 100vh;
+            width: 100vw;
             text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
+            background: rgba(0,0,0,0.7); /* Darken bg for readability */
+            backdrop-filter: blur(5px);
         }
 
-        h1 { font-size: 2.5rem; margin-bottom: 20px; letter-spacing: 2px; line-height: 1.2; }
-        h2 { font-size: 1.5rem; color: var(--neon-pink); }
-
-        .btn {
-            background: black;
-            border: 4px solid var(--neon-green);
-            color: var(--neon-green);
-            font-size: 1.2rem;
-            padding: 15px 25px;
-            font-family: 'Press Start 2P', cursive;
-            cursor: pointer;
-            box-shadow: 5px 5px 0px var(--neon-pink);
-            transition: 0.1s;
-            margin-top: 20px;
-        }
-        .btn:active { transform: translate(4px, 4px); box-shadow: 1px 1px 0px var(--neon-pink); background: var(--neon-green); color: black;}
-
-        /* --- GAME SPECIFIC CSS --- */
-        #game-canvas { border: 4px solid var(--neon-pink); background: #111; box-shadow: 0 0 20px var(--neon-pink); }
+        /* --- TEXT & BUTTONS --- */
+        h1 { font-size: 4rem; text-transform: uppercase; margin: 0; letter-spacing: 5px; text-shadow: 3px 3px 0 red, -3px -3px 0 blue; }
         
-        /* Whack-a-Mole Grid */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            gap: 10px;
-            margin: 20px;
+        .btn {
+            background: red; border: 5px solid yellow; color: white;
+            font-size: 2rem; padding: 20px; font-family: 'Comic Sans MS'; font-weight: bold;
+            cursor: pointer; box-shadow: 10px 10px 0px blue; transition: 0.1s;
         }
-        .grid-box {
-            width: 100px; height: 100px;
-            background: #222;
-            border: 2px solid #444;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 3rem;
-            cursor: pointer;
+        .btn:active { transform: translate(5px, 5px); box-shadow: 5px 5px 0px blue; }
+
+        /* --- GEO DASH CANVAS --- */
+        #game-canvas { background: #111; border-bottom: 10px solid white; display: none; box-shadow: 0 0 30px lime; }
+        
+        /* --- QUIZ --- */
+        .quiz-option {
+            display: block; width: 80%; margin: 10px auto; background: blue; color: white;
+            font-size: 1.5rem; border: 3px solid white; cursor: pointer; padding: 10px;
         }
-        .grid-active { background: var(--neon-green); border-color: white; }
+        .quiz-option:hover { background: gold; color: black; transform: scale(1.05) rotate(-2deg); }
+
+        /* --- ENDING 3D CHAOS --- */
+        @keyframes spin-3d-crazy {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); color: red; }
+            25% { transform: rotateX(180deg) rotateY(90deg) rotateZ(-45deg) scale(1.2); color: blue; }
+            50% { transform: rotateX(360deg) rotateY(180deg) rotateZ(0deg) scale(0.8); color: lime; border-color: red;}
+            75% { transform: rotateX(540deg) rotateY(270deg) rotateZ(45deg) scale(1.5); color: yellow; }
+            100% { transform: rotateX(720deg) rotateY(360deg) rotateZ(0deg) scale(1); color: red; }
+        }
+        .spin-3d {
+            animation: spin-3d-crazy 2s infinite linear;
+            transform-style: preserve-3d;
+            border: 5px dashed white;
+            padding: 20px;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        @keyframes seizure-bg {
+            0% { background-color: red; filter: invert(0); }
+            50% { background-color: blue; filter: invert(1); }
+            100% { background-color: green; filter: invert(0); }
+        }
+        .seizure-mode { animation: seizure-bg 0.1s infinite; }
 
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
-    <div class="static-noise"></div>
-    <div id="flash-overlay" class="flashbang-overlay"></div>
+
+    <div id="flashbang-overlay"></div>
 
     <div id="intro" class="container">
-        <h1 class="rgb-text shake-hard" style="color: red;">⚠️ WARNING ⚠️<br>EPILEPSY HAZARD</h1>
-        <p>Retro Brainrot Simulator v9000</p>
-        <p style="font-size: 0.8rem; margin-top: 20px;">Full volume required for maximum Ohio Rizz.</p>
-        <button class="btn" onclick="startGameSequence()">INSERT COIN</button>
+        <h1 style="color: yellow;">⚠️ WARNING ⚠️</h1>
+        <h2>LOUD SOUNDS & FLASHING LIGHTS</h2>
+        <p>FULL SCREEN BRAINROT INCOMING</p>
+        <button class="btn" onclick="startGame()">START THE GRINDSET (FULLSCREEN)</button>
     </div>
 
     <div id="geo-dash-ui" class="container hidden">
-        <h2>STAGE 1: PIZZA DASH</h2>
+        <h2>LEVEL 1: GEOMETRY PIZZA DASH</h2>
         <canvas id="game-canvas" width="600" height="300"></canvas>
-        <h3 id="geo-score">SCORE: 0 / 400</h3>
-    </div>
-
-    <div id="whack-ui" class="container hidden">
-        <h2 class="rgb-text">STAGE 2: WHACK-A-GOON</h2>
-        <p>CLICK THE MEMES FAST!</p>
-        <h3 id="whack-timer">TIME: 15s</h3>
-        <div class="grid-container" id="whack-grid">
-            </div>
-        <h3 id="whack-score">SCORE: 0</h3>
+        <h3 id="geo-score">SCORE: 0 / 500</h3>
     </div>
 
     <div id="quiz-ui" class="container hidden">
-        <h1 class="rgb-text">THE IMPOSSIBLE QUIZ 🤌</h1>
-        <h2 id="q-text" style="font-size: 1rem; margin: 20px;">LOADING...</h2>
-        <div id="q-options" style="display: flex; flex-direction: column; gap: 10px; width: 80%;"></div>
+        <h1>🤌 THE IMPOSSIBLE ITALIAN QUIZ 🤌</h1>
+        <h2 id="q-text">LOADING...</h2>
+        <div id="q-options" style="width: 100%;"></div>
     </div>
 
-    <div id="ending-ui" class="container hidden">
-        <h1 style="color:red; font-size: 3rem;" class="rgb-text shake-hard">SYSTEM ASCENSION</h1>
-        <div style="font-size: 2rem; line-height: 2; border: 4px dashed var(--neon-pink); padding: 20px;">
-            <div id="txt1">🍕 EAT PIZZA</div>
-            <div id="txt2">😴 SLEEP</div>
-            <div id="txt3" style="color: red;">👹 GOON</div>
-            <div id="txt4">🔁 REPEAT</div>
+    <div id="ending-ui" class="container hidden" style="perspective: 1000px;">
+        <div class="spin-3d">
+            <h1 style="color:red; font-size: 4rem; text-shadow: 5px 5px 0 black;">GOON CAVE UNLOCKED</h1>
+            <div style="font-size: 3rem; line-height: 1.5; font-weight: bold; text-transform: uppercase;">
+                <div>🍕 EAT PIZZA</div>
+                <div>😴 SLEEP</div>
+                <div style="color: red; text-shadow: 0 0 20px red;">👹 GOON</div>
+                <div>🔁 REPEAT</div>
+            </div>
         </div>
-        <button class="btn" onclick="location.reload()">RESET UNIVERSE</button>
+        <br>
+        <button class="btn" onclick="location.reload()">PRESTIGE RESET</button>
     </div>
 
     <script>
-        const synth = window.speechSynthesis;
-        let gameState = {};
-
         // --- AUDIO ENGINE ---
-        function sfx(text, rate=1.2, pitch=0.8, vol=1) {
+        const synth = window.speechSynthesis;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function sfx(text, rate=1.5, pitch=1.0) {
             if (synth.speaking) synth.cancel();
             const u = new SpeechSynthesisUtterance(text);
-            u.rate = rate; u.pitch = pitch; u.volume = vol;
+            u.rate = rate; u.pitch = pitch; u.volume = 1;
             synth.speak(u);
         }
 
-        function triggerFlashbang() {
-            synth.cancel();
-            // High pitched tinnitus ringing
-            sfx("EEEEEEEEEEEEEEEEEEEEEEEEEEEEE", 2, 2, 0.3);
-            const overlay = document.getElementById('flash-overlay');
-            overlay.classList.add('flash-active');
-            setTimeout(() => {
-                overlay.classList.remove('flash-active');
-            }, 4000);
-        }
-
-        function startGameSequence() {
-            document.getElementById('intro').classList.add('hidden');
-            sfx("Welcome to the Ohio Zone. Get ready.");
-            startGeoDash();
-        }
-
-        // --- GAME 1: GEO DASH (Simplified for stability) ---
-        function startGeoDash() {
-            document.getElementById('geo-dash-ui').classList.remove('hidden');
-            const canvas = document.getElementById('game-canvas');
-            const ctx = canvas.getContext('2d');
-            let player = { y: 250, dy: 0, grounded: true };
-            let obstacles = []; let score = 0; let active = true; frame=0;
-
-            document.body.onkeydown = document.body.ontouchstart = jump;
-
-            function jump() { if(player.grounded) { player.dy = -15; player.grounded=false; sfx("Hup!", 3); }}
-
-            function loop() {
-                if(!active) return;
-                requestAnimationFrame(loop);
-                ctx.fillStyle = '#111'; ctx.fillRect(0,0,600,300);
-                
-                player.dy += 1.2; player.y += player.dy; // Gravity
-                if(player.y > 250) { player.y = 250; player.grounded = true; }
-                
-                ctx.fillStyle = 'cyan'; ctx.fillRect(50, player.y, 30, 30); // Player
-
-                frame++;
-                if(frame%70===0) obstacles.push({x:600, w:30, h:40});
-
-                ctx.fillStyle = 'red';
-                obstacles.forEach((ob, i) => {
-                    ob.x -= 8;
-                    ctx.fillRect(ob.x, 300-ob.h, ob.w, ob.h);
-                    // Collision (Simplified box)
-                    if(50 < ob.x + ob.w && 80 > ob.x && player.y + 30 > 300 - ob.h) {
-                         sfx("Skill issue. Reset."); score=0; obstacles=[];
-                         document.body.classList.add('strobe-mode');
-                         setTimeout(()=>document.body.classList.remove('strobe-mode'), 500);
-                    }
-                });
-                score++; document.getElementById('geo-score').innerText = `SCORE: ${score}/400`;
-                if(score > 400) { active=false; document.body.onkeydown = null; transitionToWhack(); }
+        // REAL FLASHBANG SOUND (Web Audio API Noise)
+        function playFlashBangSound() {
+            const bufferSize = 2 * audioCtx.sampleRate;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1; // White noise
             }
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            const noiseGain = audioCtx.createGain();
+            noiseGain.gain.setValueAtTime(1, audioCtx.currentTime);
+            noiseGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+            whiteNoise.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            whiteNoise.start();
+            whiteNoise.stop(audioCtx.currentTime + 0.5);
+
+            // High pitch ring
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(1500, audioCtx.currentTime); // 1500Hz tone
+            const oscGain = audioCtx.createGain();
+            oscGain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            oscGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2);
+            oscillator.connect(oscGain);
+            oscGain.connect(audioCtx.destination);
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 2);
+        }
+
+        function triggerFlashbang() {
+            playFlashBangSound();
+            const fb = document.getElementById('flashbang-overlay');
+            fb.classList.add('flashing-now');
+            // Force reflow
+            void fb.offsetWidth; 
+            setTimeout(() => {
+                 fb.classList.remove('flashing-now');
+            }, 50); // Short burst then fade out via CSS transition
+        }
+
+        // --- GLOBAL STATE ---
+        function startGame() {
+            // FULL SCREEN ACTIVATION
+            document.documentElement.requestFullscreen().catch((e) => {
+                console.log("Fullscreen denied, continuing anyway.");
+            });
+
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('geo-dash-ui').classList.remove('hidden');
+            sfx("Lets go gamers. Skibidi Geo Dash initiated.", 1.2);
+            initGeoDash();
+        }
+
+        // --- STEP 2: GEO DASH ---
+        let canvas, ctx, gameLoop;
+        let player = { x: 50, y: 200, w: 30, h: 30, dy: 0, jumpPower: -12, grounded: false };
+        let gravity = 0.8;
+        let obstacles = [];
+        let gameScore = 0;
+        let gameActive = false;
+        let frameCount = 0;
+
+        function initGeoDash() {
+            canvas = document.getElementById('game-canvas');
+            canvas.style.display = "block";
+            ctx = canvas.getContext('2d');
+            gameActive = true;
+            document.body.onkeydown = (e) => { if(e.code === 'Space') jump(); };
+            document.body.ontouchstart = jump;
+            document.body.onclick = jump;
             loop();
         }
 
-        function transitionToWhack() {
-            document.getElementById('geo-dash-ui').classList.add('hidden');
-            triggerFlashbang();
-            setTimeout(startWhackGame, 2500);
+        function jump() {
+            if(player.grounded) {
+                player.dy = player.jumpPower; player.grounded = false;
+            }
         }
 
-        // --- GAME 2: WHACK-A-GOON ---
-        function startWhackGame() {
-            document.getElementById('whack-ui').classList.remove('hidden');
-            sfx("Stage 2. Whack the Goons.");
-            const grid = document.getElementById('whack-grid');
-            for(let i=0; i<9; i++) {
-                let box = document.createElement('div'); box.className = 'grid-box'; box.id = 'box-'+i;
-                box.onclick = () => hitBox(i);
-                grid.appendChild(box);
-            }
-            gameState.whackScore = 0;
-            gameState.timeLeft = 15;
-            gameState.activeMole = -1;
-            
-            let timerInt = setInterval(() => {
-                gameState.timeLeft--;
-                document.getElementById('whack-timer').innerText = `TIME: ${gameState.timeLeft}s`;
-                if(gameState.timeLeft <= 0) {
-                    clearInterval(timerInt); clearInterval(moleInt);
-                    transitionToQuiz();
+        function loop() {
+            if (!gameActive) return;
+            requestAnimationFrame(loop);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            player.dy += gravity; player.y += player.dy;
+            if (player.y + player.h > canvas.height) { player.y = canvas.height - player.h; player.dy = 0; player.grounded = true; }
+
+            // Draw Player (Pizza Cube)
+            ctx.fillStyle = "orange"; ctx.fillRect(player.x, player.y, player.w, player.h);
+            ctx.fillStyle = "red"; ctx.beginPath(); ctx.arc(player.x+15, player.y+15, 5, 0, 2*Math.PI); ctx.fill(); // pepperoni
+
+            frameCount++;
+            if (frameCount % 90 === 0) obstacles.push({ x: canvas.width, w: 30, h: 40 });
+
+            ctx.fillStyle = "red";
+            for (let i = 0; i < obstacles.length; i++) {
+                let obs = obstacles[i]; obs.x -= 6;
+                ctx.beginPath(); ctx.moveTo(obs.x, canvas.height); ctx.lineTo(obs.x + obs.w/2, canvas.height - obs.h); ctx.lineTo(obs.x + obs.w, canvas.height); ctx.fill();
+                if (player.x < obs.x + obs.w && player.x + player.w > obs.x && player.y < canvas.height && player.y + player.h > canvas.height - obs.h) {
+                        triggerFlashbang();
+                        sfx("Skill issue. Restarting.", 2);
+                        gameScore = 0; obstacles = []; frameCount = 0;
                 }
-            }, 1000);
+            }
+            obstacles = obstacles.filter(o => o.x > -50);
+            gameScore++; document.getElementById('geo-score').innerText = `SCORE: ${gameScore} / 500`;
 
-            let moleInt = setInterval(showMole, 600);
-        }
-
-        function showMole() {
-            if(gameState.activeMole !== -1) document.getElementById('box-'+gameState.activeMole).innerHTML = '';
-            gameState.activeMole = Math.floor(Math.random() * 9);
-            const memes = ["🤡", "💀", "💩", "👽"];
-            document.getElementById('box-'+gameState.activeMole).innerHTML = memes[Math.floor(Math.random()*memes.length)];
-        }
-        function hitBox(i) {
-            if(i === gameState.activeMole) {
-                gameState.whackScore++;
-                document.getElementById('whack-score').innerText = "SCORE: " + gameState.whackScore;
-                document.getElementById('box-'+i).innerHTML = ''; gameState.activeMole = -1;
-                sfx("Bonk!", 3);
+            if (gameScore > 500) {
+                gameActive = false;
+                sfx("Oh baby a triple! Level Complete!", 1.5);
+                setTimeout(startQuiz, 1000);
             }
         }
-        
-        function transitionToQuiz() {
-             document.getElementById('whack-grid').innerHTML = ''; // clear grid
-             document.getElementById('whack-ui').classList.add('hidden');
-             triggerFlashbang();
-             setTimeout(startQuiz, 2500);
-        }
 
-
-        // --- GAME 3: EXPANDED QUIZ ---
+        // --- STEP 3: QUIZ ---
         const quizData = [
-            { q: "COMPLETE: 'I COOKA DA ____'", o: ["PIZZA", "MEATBALL", "FANUM TAX"], a: 1 },
-            { q: "WHAT DOES 'GYATT' MEAN?", o: ["LEVEL 10 RIZZ", "A NICE PERSON", "BIG CAKE"], a: 2 },
-            { q: "WHO IS THE RIZZLER?", o: ["SKIBIDI TOILET", "DUKE DENNIS", "BABY GRONK"], a: 1 },
-            { q: "IS OHIO REAL?", o: ["YES", "NO (IT'S A SIMULATION)", "ONLY AT 3AM"], a: 1 },
-            { q: "SHOULD YOU SLEEP?", o: ["NO, MUST GRIND", "YES (BETA MALE)", "ONLY POWER NAPS"], a: 0 }
+            { q: "DOES PINEAPPLE BELONG ON PIZZA?", opts: ["YES (I am cringe)", "NO (I am Sigma)", "MAYBE"], a: 1 },
+            { q: "WHAT DOES 'FANUM TAX' MEAN?", opts: ["Stealing food", "Paying taxes", "Skibidi toilet"], a: 0 },
+            { q: "TRANSLATE: 🤌", opts: ["Hello", "What do you want?", "Spaghetti"], a: 1 }
         ];
         let qIdx = 0;
 
         function startQuiz() {
+            document.getElementById('geo-dash-ui').classList.add('hidden');
             document.getElementById('quiz-ui').classList.remove('hidden');
-            sfx("Final Stage. The Interrogation.", 0.8);
+            document.body.onclick = null; document.body.onkeydown = null;
             loadQuestion();
         }
 
         function loadQuestion() {
-            if(qIdx >= quizData.length) { startEnding(); return; }
+            if (qIdx >= quizData.length) { startEnding(); return; }
             const data = quizData[qIdx];
             document.getElementById('q-text').innerText = data.q;
+            sfx(data.q, 1.3);
             const div = document.getElementById('q-options'); div.innerHTML = '';
-            data.o.forEach((opt, i) => {
-                const btn = document.createElement('button'); btn.className = "btn";
-                btn.style.marginTop = "5px"; btn.innerText = opt; btn.onclick = ()=>check(i, data.a);
-                div.appendChild(btn);
+            data.opts.forEach((opt, i) => {
+                const btn = document.createElement('button'); btn.innerText = opt; btn.className = "quiz-option";
+                btn.onclick = () => checkAnswer(i, data.a); div.appendChild(btn);
             });
         }
 
-        function check(c, a) {
-            if(c===a) { sfx("Correct.", 2); qIdx++; loadQuestion(); }
-            else { 
-                sfx("WRONG. MINUS 1000 SOCIAL CREDIT.", 1, 0.5);
-                document.body.classList.add('strobe-mode');
-                setTimeout(()=>document.body.classList.remove('strobe-mode'), 1000);
+        function checkAnswer(chosen, correct) {
+            if (chosen === correct) {
+                sfx("Mamma mia that is correct!", 1.5); qIdx++; loadQuestion();
+            } else {
+                triggerFlashbang(); // PUNISHMENT
+                sfx("NOT VERY CASH MONEY OF YOU.", 1.8);
             }
         }
 
-        // --- ENDING ---
+        // --- STEP 4: 3D ENDING CHAOS ---
         function startEnding() {
             document.getElementById('quiz-ui').classList.add('hidden');
-            triggerFlashbang();
-            setTimeout(() => {
-                 document.getElementById('ending-ui').classList.remove('hidden');
-                 sfx("Eat Pizza. Sleep. Goon. Repeat. The cycle continues.", 0.7, 0.6);
-                 setInterval(() => { document.body.style.filter = `hue-rotate(${Math.random() * 360}deg) contrast(150%)`; }, 200);
-            }, 3000);
+            const endUI = document.getElementById('ending-ui');
+            endUI.classList.remove('hidden');
+            
+            // ACTIVATE MAXIMUM CHAOS MODES
+            document.body.classList.add('seizure-mode');
+            
+            let mantra = ["Eat Pizza", "Sleep", "Goon", "Repeat"];
+            let i = 0;
+            setInterval(() => {
+                sfx(mantra[i], i===2 ? 0.5 : 1.5); i = (i + 1) % mantra.length;
+            }, 1200);
         }
 
     </script>

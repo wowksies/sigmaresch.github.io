@@ -2,368 +2,299 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🚨 R6_FLASHBANG_MAX_CHAOS 🚨</title>
+    <title>🍕 CHAOS_DASH_EZ_MODE 🚽</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* --- GLOBAL CHAOS --- */
+        /* --- GLOBAL & BACKGROUND --- */
         body {
             margin: 0;
-            background-color: #000;
-            color: lime;
-            font-family: 'Impact', sans-serif;
+            background: #000;
             overflow: hidden;
+            font-family: 'Comic Sans MS', 'Impact', sans-serif;
+            color: lime;
             cursor: crosshair;
             user-select: none;
         }
 
-        /* FULLSCREEN BACKGROUND ANIMATION */
-        .bg-chaos {
+        /* CRAZY BACKGROUND ANIMATION */
+        .psychedelic-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: repeating-linear-gradient(
-                45deg,
-                #000,
-                #000 10px,
-                #111 10px,
-                #111 20px
+            background: repeating-radial-gradient(
+                circle,
+                #ff0000,
+                #ff0000 10px,
+                #ffff00 20px,
+                #00ff00 30px,
+                #0000ff 40px,
+                #4b0082 50px,
+                #9400d3 60px
             );
+            background-size: 200% 200%;
             z-index: -2;
-            animation: bg-shift 1s linear infinite;
+            animation: bg-zoom 0.5s infinite alternate;
+            opacity: 0.6;
         }
-        @keyframes bg-shift { 0% { background-position: 0 0; } 100% { background-position: 50px 50px; } }
+        @keyframes bg-zoom {
+            0% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
+            100% { transform: scale(1.2) rotate(5deg); filter: hue-rotate(90deg); }
+        }
 
-        /* CRT SCANLINES */
-        .scanlines {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 4px, 6px 100%;
-            pointer-events: none;
+        /* RANDOM GLITCH OVERLAY */
+        .glitch-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.1);
             z-index: 1000;
-        }
-
-        /* --- THE FLASHBANG OVERLAY --- */
-        #flash-whiteout {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: white;
-            opacity: 0;
             pointer-events: none;
-            z-index: 9999;
+            display: none;
         }
-        .blind { animation: flash-blind 4s ease-out forwards; }
-        @keyframes flash-blind {
-            0% { opacity: 1; }
-            10% { opacity: 1; } /* Hold white */
-            100% { opacity: 0; }
-        }
+        .glitching { display: block; animation: flash-white 0.1s infinite; }
+        @keyframes flash-white { 0% {opacity:0;} 50% {opacity:0.5; background:white;} 100% {opacity:0; background:red;} }
 
         /* --- UI ELEMENTS --- */
         .container {
+            position: relative; z-index: 10;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             height: 100vh; width: 100vw;
-            position: relative; z-index: 10;
+            text-align: center;
         }
 
         h1 {
             font-size: 5rem;
-            text-transform: uppercase;
-            text-shadow: 5px 5px 0px red;
-            animation: shake 0.5s infinite;
+            color: white;
+            text-shadow: 5px 5px 0 red, -5px -5px 0 blue;
+            animation: text-shake 0.2s infinite;
+        }
+        @keyframes text-shake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            50% { transform: translate(-2px, -1px) rotate(-1deg); }
+            100% { transform: translate(1px, -2px) rotate(1deg); }
         }
 
         .btn {
-            background: red; border: 5px solid yellow; color: white;
-            font-size: 2rem; padding: 25px 50px;
-            font-family: 'Impact'; letter-spacing: 2px;
-            cursor: pointer; box-shadow: 0 0 20px red;
+            background: black; border: 5px solid lime; color: lime;
+            font-size: 2rem; padding: 20px 40px;
+            font-family: 'Impact'; cursor: pointer;
+            box-shadow: 0 0 30px lime;
             transition: 0.1s;
         }
-        .btn:active { transform: scale(0.9); }
-        .btn:hover { background: blue; border-color: white; transform: rotate(-2deg) scale(1.1); }
-
-        /* --- FLOATING EFFECTS --- */
-        .float-text {
-            position: absolute; font-weight: bold; pointer-events: none;
-            text-shadow: 2px 2px 0 #000;
-            animation: floatUp 1s forwards;
-            z-index: 500;
+        .btn:hover {
+            background: lime; color: black;
+            transform: scale(1.1) rotate(3deg);
+            box-shadow: 0 0 60px white;
         }
-        @keyframes floatUp { 0% { transform: translateY(0) scale(1); opacity: 1;} 100% { transform: translateY(-100px) scale(1.5) rotate(20deg); opacity: 0;} }
-
-        /* --- GRENADE SVG --- */
-        #grenade-svg {
-            position: fixed; bottom: -200px; right: -200px; width: 150px; z-index: 5000; display: none;
-        }
-        .throw { display: block !important; animation: throw-anim 1s forwards; }
-        @keyframes throw-anim {
-            0% { bottom: -100px; right: -100px; transform: rotate(0deg); }
-            50% { bottom: 50%; right: 50%; transform: scale(2) rotate(-360deg); }
-            100% { bottom: 50%; right: 50%; transform: scale(3) rotate(-720deg); }
-        }
-
-        /* --- ANIMATIONS --- */
-        @keyframes shake { 0% {transform: translate(1px, 1px);} 50% {transform: translate(-1px, -1px);} 100% {transform: translate(1px, -1px);} }
-        .hidden { display: none !important; }
 
         /* --- GAME CANVAS --- */
-        #game-canvas { background: #222; border: 5px solid lime; box-shadow: 0 0 50px lime; }
+        #game-canvas {
+            background: rgba(0,0,0,0.8);
+            border: 5px dashed yellow;
+            box-shadow: 0 0 50px red;
+            display: none;
+        }
+
+        .hidden { display: none !important; }
+
+        /* PARTICLES */
+        .emoji-float {
+            position: absolute; font-size: 3rem; pointer-events: none;
+            animation: floatUp 2s linear forwards;
+        }
+        @keyframes floatUp { 0% {top: 100vh; opacity:1;} 100% {top: -100px; opacity:0; transform: rotate(360deg);} }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-chaos"></div>
-    <div class="scanlines"></div>
-    <div id="flash-whiteout"></div>
-    
-    <svg id="grenade-svg" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg">
-        <rect x="30" y="50" width="40" height="100" rx="5" fill="#333" stroke="white" stroke-width="2"/>
-        <rect x="25" y="40" width="50" height="15" fill="#ccc" stroke="white"/>
-        <circle cx="75" cy="45" r="8" fill="none" stroke="red" stroke-width="3"/>
-        <text x="35" y="100" fill="white" font-weight="bold" font-family="Arial">M84</text>
-        <rect x="30" y="70" width="40" height="5" fill="red"/>
-    </svg>
+    <div class="psychedelic-bg"></div>
+    <div id="glitch-layer" class="glitch-overlay"></div>
 
     <div id="intro" class="container">
-        <h1>⚠️ EPILEPSY WARNING ⚠️</h1>
-        <h2 style="color: yellow;">FULLSCREEN FLASHBANG SIMULATOR</h2>
-        <p>Turn Volume to 100%</p>
-        <button class="btn" onclick="initChaos()">CLICK TO START</button>
+        <h1>☣️ BRAINROT DASH ☣️</h1>
+        <h2 style="background:black; color:yellow;">WARNING: LOUD MUSIC & FLASHING</h2>
+        <button class="btn" onclick="startSystem()">ACTIVATE CHAOS</button>
     </div>
 
     <div id="game-ui" class="container hidden">
-        <h1 style="font-size: 3rem; color: cyan;">GEOMETRY BRAINROT</h1>
-        <p>TAP TO JUMP</p>
+        <h2 style="background:black; color:white;">LEVEL 1: OHIO EASY MODE</h2>
+        <p style="background:black;">(Game plays itself sometimes)</p>
         <canvas id="game-canvas" width="600" height="300"></canvas>
-        <h3 id="score">SCORE: 0</h3>
-    </div>
-
-    <div id="quiz-ui" class="container hidden">
-        <h1 style="color:orange;">THE INTERROGATION</h1>
-        <h2 id="q-text" style="background:black; padding:10px;">...</h2>
-        <div id="q-opts"></div>
+        <h3 id="score" style="background:black; font-size:2rem;">SCORE: 0</h3>
     </div>
 
     <div id="outro" class="container hidden">
-        <h1 class="shake" style="font-size: 6rem;">MISSION COMPLETE</h1>
-        <div style="font-size: 4rem; font-weight: bold; line-height: 1.5; text-transform: uppercase;">
-            <div style="color: #fff;">🍕 EAT PIZZA</div>
-            <div style="color: #ddd;">😴 SLEEP</div>
-            <div style="color: red; font-size: 6rem; text-shadow: 0 0 20px red;">👹 GOON</div>
-            <div style="color: lime;">🔁 REPEAT</div>
+        <h1 style="font-size: 6rem;">GG EZ</h1>
+        <div style="font-size: 3rem; font-weight: bold; background:rgba(0,0,0,0.7); padding:20px;">
+            <div>🍕 EAT PIZZA</div>
+            <div>😴 SLEEP</div>
+            <div style="color:red; font-size:5rem;">👹 GOON</div>
+            <div>🔁 REPEAT</div>
         </div>
-        <button class="btn" onclick="location.reload()" style="margin-top:20px;">PRESTIGE</button>
+        <br>
+        <button class="btn" onclick="location.reload()">AGAIN</button>
     </div>
 
     <script>
-        // --- AUDIO ENGINE (WEB AUDIO API) ---
+        // --- MUSIC ENGINE (GENERATIVE TECHNO) ---
         let audioCtx;
-        const synth = window.speechSynthesis;
+        let nextNoteTime = 0;
+        let noteLength = 0.15; // Speed of beat
+        let chaosLevel = 0;
 
         function initAudio() {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if(audioCtx.state === 'suspended') audioCtx.resume();
+            nextNoteTime = audioCtx.currentTime;
+            scheduler();
         }
 
-        // 1. GENERATE FLASHBANG SOUND (White Noise + Sine Ring)
-        function playFlashAudio() {
-            const t = audioCtx.currentTime;
-            
-            // Boom/Hiss
-            const bufSize = audioCtx.sampleRate * 3; 
-            const buffer = audioCtx.createBuffer(1, bufSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for(let i=0; i<bufSize; i++) data[i] = Math.random() * 2 - 1;
+        function scheduler() {
+            while (nextNoteTime < audioCtx.currentTime + 0.1) {
+                playBeat(nextNoteTime);
+                nextNoteTime += noteLength;
+            }
+            if(document.getElementById('outro').classList.contains('hidden')) {
+                requestAnimationFrame(scheduler);
+            }
+        }
 
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-            const noiseGain = audioCtx.createGain();
-            noiseGain.gain.setValueAtTime(1, t);
-            noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 2);
-            noise.connect(noiseGain); noiseGain.connect(audioCtx.destination);
-            noise.start();
-
-            // Tinnitus Ring (High Pitch)
+        function playBeat(time) {
+            // Kick Drum
             const osc = audioCtx.createOscillator();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(3000, t);
-            const oscGain = audioCtx.createGain();
-            oscGain.gain.setValueAtTime(0.05, t); // Start volume
-            oscGain.gain.linearRampToValueAtTime(0.1, t + 0.1); // Fade in
-            oscGain.gain.exponentialRampToValueAtTime(0.001, t + 5); // Ring for 5s
-            osc.connect(oscGain); oscGain.connect(audioCtx.destination);
-            osc.start(); osc.stop(t + 5);
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(150, time);
+            osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
+            gain.gain.setValueAtTime(1, time);
+            gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(time); osc.stop(time + 0.5);
+
+            // Chaos Melody (Random High Pitches)
+            if(Math.random() > 0.5) {
+                const mel = audioCtx.createOscillator();
+                const mg = audioCtx.createGain();
+                mel.type = 'square';
+                mel.frequency.setValueAtTime(Math.random() * 800 + 200, time);
+                // Slide pitch for "crazy" effect
+                mel.frequency.linearRampToValueAtTime(Math.random() * 1000, time + 0.1);
+                mg.gain.setValueAtTime(0.1, time);
+                mg.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
+                mel.connect(mg); mg.connect(audioCtx.destination);
+                mel.start(time); mel.stop(time + 0.3);
+            }
         }
 
-        // 2. MEME VOICES
-        function speak(text, type="normal") {
-            if(synth.speaking) synth.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.volume = 1; 
-            if(type==="demon") { u.pitch = 0.1; u.rate = 0.8; }
-            else if(type==="chipmunk") { u.pitch = 2; u.rate = 1.5; }
-            else { u.pitch = 1; u.rate = 1.2; }
-            synth.speak(u);
-            spawnText(text); // Also show it on screen
-        }
-
-        // --- VISUAL FX ---
-        function spawnText(txt) {
-            const el = document.createElement('div');
-            el.className = 'float-text';
-            el.innerText = txt;
-            el.style.left = Math.random() * 80 + 'vw';
-            el.style.top = Math.random() * 80 + 'vh';
-            el.style.color = `hsl(${Math.random()*360}, 100%, 50%)`;
-            el.style.fontSize = (Math.random()*2 + 2) + 'rem';
-            document.body.appendChild(el);
-            setTimeout(() => el.remove(), 1000);
-        }
-
-        function triggerFlashbang(callback) {
-            const gren = document.getElementById('grenade-svg');
-            const overlay = document.getElementById('flash-whiteout');
-            
-            // 1. Throw
-            gren.classList.add('throw');
-            
-            // 2. Boom
-            setTimeout(() => {
-                gren.style.display = 'none'; // Hide grenade
-                overlay.classList.add('blind'); // White screen
-                playFlashAudio(); // Sound
-                
-                // 3. Reset
-                setTimeout(() => {
-                    overlay.classList.remove('blind');
-                    gren.classList.remove('throw');
-                    gren.style.display = ''; 
-                    if(callback) callback();
-                }, 4000);
-            }, 1000);
-        }
-
-        // --- CORE SYSTEM ---
-        function initChaos() {
-            // FORCE FULLSCREEN
-            const elem = document.documentElement;
-            if (elem.requestFullscreen) { elem.requestFullscreen(); }
+        // --- GAME SYSTEM ---
+        function startSystem() {
+            // Request Fullscreen
+            if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
             
             initAudio();
-            speak("Tactical Nuke Incoming", "demon");
-            
             document.getElementById('intro').classList.add('hidden');
             document.getElementById('game-ui').classList.remove('hidden');
             startGame();
-
-            // Start random visual noise loop
+            
+            // Random Emoji Spawner
             setInterval(() => {
-                if(Math.random() > 0.8) spawnText(["🍕", "💀", "🚽", "WOW", "HITMARKER"][Math.floor(Math.random()*5)]);
-            }, 500);
+                const e = document.createElement('div');
+                e.innerText = ["🍕", "💀", "🚽", "🔥", "🅱️"][Math.floor(Math.random()*5)];
+                e.className = 'emoji-float';
+                e.style.left = Math.random()*100 + 'vw';
+                document.body.appendChild(e);
+                setTimeout(()=>e.remove(), 2000);
+            }, 300);
         }
 
-        // --- GAME LOGIC ---
-        let canvas, ctx, gameLoop;
-        let player = {y:200, dy:0, grounded:false};
+        let canvas, ctx;
+        let player = { x:50, y:200, dy:0, grounded:false };
         let obstacles = [];
         let score = 0;
-        let active = false;
+        let gameActive = false;
 
         function startGame() {
             canvas = document.getElementById('game-canvas');
+            canvas.style.display = "block";
             ctx = canvas.getContext('2d');
-            active = true;
-            document.body.onmousedown = jump;
-            document.body.onkeydown = (e) => { if(e.code==='Space') jump(); };
+            gameActive = true;
+            
+            document.body.onmousedown = () => jump(true);
+            document.body.onkeydown = (e) => { if(e.code==='Space') jump(true); };
+            
             loop();
         }
 
-        function jump() {
-            if(player.grounded) {
-                player.dy = -12; player.grounded = false;
-                spawnText("BOING");
+        function jump(isPlayer) {
+            player.dy = -10; // Low Gravity Jump
+            player.grounded = false;
+            
+            // Play "Jump" sound
+            if(audioCtx) {
+                const o = audioCtx.createOscillator();
+                o.type='triangle';
+                o.frequency.setValueAtTime(300, audioCtx.currentTime);
+                o.frequency.linearRampToValueAtTime(600, audioCtx.currentTime+0.1);
+                o.connect(audioCtx.destination);
+                o.start(); o.stop(audioCtx.currentTime+0.1);
             }
         }
 
         function loop() {
-            if(!active) return;
+            if(!gameActive) return;
             requestAnimationFrame(loop);
             ctx.clearRect(0,0,600,300);
 
-            // Player
-            player.dy += 0.6; player.y += player.dy;
+            // 1. CHAOS: Random "Misclick" / Autoplay
+            // 2% chance per frame to jump automatically
+            if(Math.random() < 0.02 && player.grounded) {
+                jump(false);
+                // Flash the screen to indicate "glitch"
+                const gl = document.getElementById('glitch-layer');
+                gl.classList.add('glitching');
+                setTimeout(()=>gl.classList.remove('glitching'), 100);
+            }
+
+            // Physics (SUPER EASY MODE)
+            player.dy += 0.5; // Low gravity
+            player.y += player.dy;
             if(player.y > 250) { player.y = 250; player.grounded = true; }
-            ctx.fillStyle = 'cyan'; ctx.fillRect(50, player.y, 40, 40);
+            if(player.y < 0) { player.y = 0; player.dy = 0; }
 
-            // Spikes
-            if(Math.random() < 0.02) obstacles.push({x:600});
+            // Draw Player
+            ctx.fillStyle = `hsl(${score % 360}, 100%, 50%)`; // Rainbow player
+            ctx.fillRect(player.x, player.y, 40, 40);
+
+            // Obstacles
+            if(Math.random() < 0.01) { // Very rare spawn (Easy)
+                obstacles.push({ x: 600 });
+            }
+
             obstacles.forEach(o => {
-                o.x -= 6;
+                o.x -= 5; // Slow speed
                 ctx.fillStyle = 'red';
-                ctx.beginPath(); ctx.moveTo(o.x, 290); ctx.lineTo(o.x+20, 240); ctx.lineTo(o.x+40, 290); ctx.fill();
+                ctx.beginPath();
+                ctx.moveTo(o.x, 290); ctx.lineTo(o.x+20, 240); ctx.lineTo(o.x+40, 290);
+                ctx.fill();
 
-                if(o.x < 90 && o.x > 10 && player.y > 210) {
-                    // DIE -> FLASHBANG
-                    active = false;
-                    speak("GET FLASHED IDIOT", "demon");
-                    triggerFlashbang(() => {
-                        obstacles = []; score = 0; active = true; loop();
-                    });
+                // Hitbox
+                if(o.x < 90 && o.x > 10 && player.y > 220) {
+                    // Punish (Flashbang + Reset score) but don't stop game entirely
+                    score = 0;
+                    document.body.style.filter = "invert(1)";
+                    setTimeout(()=>document.body.style.filter = "invert(0)", 200);
                 }
             });
-            obstacles = obstacles.filter(o => o.x > -50);
 
+            obstacles = obstacles.filter(o => o.x > -50);
             score++;
             document.getElementById('score').innerText = "SCORE: " + score;
 
-            if(score > 500) {
-                active = false;
-                startQuiz();
+            if(score > 300) {
+                gameActive = false;
+                showOutro();
             }
         }
 
-        // --- QUIZ ---
-        function startQuiz() {
+        function showOutro() {
             document.getElementById('game-ui').classList.add('hidden');
-            document.getElementById('quiz-ui').classList.remove('hidden');
-            speak("Welcome to Ohio", "demon");
-            
-            const q = {q:"WHAT IS THE BEST FOOD?", a: ["PIZZA", "ROCKS", "SALAD"], c:0};
-            document.getElementById('q-text').innerText = q.q;
-            
-            const d = document.getElementById('q-opts');
-            q.a.forEach((opt, i) => {
-                const b = document.createElement('button');
-                b.className = 'btn'; b.style.margin = '10px'; b.innerText = opt;
-                b.onclick = () => {
-                    if(i === q.c) {
-                        speak("OH BABY A TRIPLE", "chipmunk");
-                        endGame();
-                    } else {
-                        triggerFlashbang();
-                        speak("WRONG", "demon");
-                    }
-                };
-                d.appendChild(b);
-            });
-        }
-
-        // --- END ---
-        function endGame() {
-            document.getElementById('quiz-ui').classList.add('hidden');
             document.getElementById('outro').classList.remove('hidden');
-            
-            const words = ["Eat Pizza", "Sleep", "Goon", "Repeat"];
-            let i = 0;
-            setInterval(() => {
-                // Chaotic background color change
-                document.body.style.filter = `hue-rotate(${Math.random()*360}deg)`;
-                
-                let w = words[i];
-                if(w === "Goon") speak(w, "demon");
-                else speak(w, "chipmunk");
-                
-                i = (i+1)%4;
-            }, 1000);
         }
 
     </script>

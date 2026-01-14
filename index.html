@@ -2,299 +2,391 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🍕 CHAOS_DASH_EZ_MODE 🚽</title>
+    <title>nig bomb</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        /* --- GLOBAL & BACKGROUND --- */
+        /* --- CORE STYLES --- */
         body {
             margin: 0;
-            background: #000;
-            overflow: hidden;
+            background-color: #000;
+            color: #0f0;
             font-family: 'Comic Sans MS', 'Impact', sans-serif;
-            color: lime;
+            overflow: hidden;
             cursor: crosshair;
             user-select: none;
         }
 
-        /* CRAZY BACKGROUND ANIMATION */
-        .psychedelic-bg {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: repeating-radial-gradient(
-                circle,
-                #ff0000,
-                #ff0000 10px,
-                #ffff00 20px,
-                #00ff00 30px,
-                #0000ff 40px,
-                #4b0082 50px,
-                #9400d3 60px
-            );
-            background-size: 200% 200%;
-            z-index: -2;
-            animation: bg-zoom 0.5s infinite alternate;
-            opacity: 0.6;
-        }
-        @keyframes bg-zoom {
-            0% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
-            100% { transform: scale(1.2) rotate(5deg); filter: hue-rotate(90deg); }
-        }
-
-        /* RANDOM GLITCH OVERLAY */
-        .glitch-overlay {
+        /* DYNAMIC BACKGROUND */
+        .bg-chaos {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1000;
+            background-image: radial-gradient(circle, #111 10%, transparent 10%), radial-gradient(circle, #222 10%, transparent 10%);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            z-index: -2;
+            animation: bg-flash 5s infinite;
+        }
+        @keyframes bg-flash {
+            0% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(90deg); }
+            100% { filter: hue-rotate(0deg); }
+        }
+
+        /* MEME OVERLAYS */
+        .meme-pop {
+            position: absolute;
             pointer-events: none;
-            display: none;
+            z-index: 500;
+            font-size: 3rem;
+            animation: pop-fade 1s forwards;
+            font-weight: bold;
+            text-shadow: 2px 2px 0 #000;
         }
-        .glitching { display: block; animation: flash-white 0.1s infinite; }
-        @keyframes flash-white { 0% {opacity:0;} 50% {opacity:0.5; background:white;} 100% {opacity:0; background:red;} }
+        @keyframes pop-fade {
+            0% { transform: scale(0.5) rotate(0deg); opacity: 1; }
+            50% { transform: scale(1.5) rotate(20deg); opacity: 1; }
+            100% { transform: scale(2) rotate(-20deg); opacity: 0; }
+        }
 
-        /* --- UI ELEMENTS --- */
+        .hitmarker {
+            position: absolute;
+            width: 50px; height: 50px;
+            background: transparent;
+            border: 2px solid white;
+            transform: rotate(45deg);
+            z-index: 600;
+            pointer-events: none;
+        }
+        .hitmarker::before, .hitmarker::after {
+            content: ''; position: absolute; background: white;
+        }
+        .hitmarker::before { top: 22px; left: -10px; width: 70px; height: 2px; }
+        .hitmarker::after { top: -10px; left: 22px; width: 2px; height: 70px; }
+
+        /* UI CONTAINERS */
         .container {
-            position: relative; z-index: 10;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100vh; width: 100vw;
-            text-align: center;
+            height: 100vh; width: 100vw; text-align: center;
+            position: relative; z-index: 10;
         }
 
-        h1 {
-            font-size: 5rem;
-            color: white;
-            text-shadow: 5px 5px 0 red, -5px -5px 0 blue;
-            animation: text-shake 0.2s infinite;
-        }
-        @keyframes text-shake {
-            0% { transform: translate(2px, 1px) rotate(0deg); }
-            50% { transform: translate(-2px, -1px) rotate(-1deg); }
-            100% { transform: translate(1px, -2px) rotate(1deg); }
-        }
-
+        h1 { font-size: 4rem; text-shadow: 4px 4px 0px red; margin: 0; text-transform: uppercase; }
+        
         .btn {
-            background: black; border: 5px solid lime; color: lime;
+            background: linear-gradient(to bottom, #ff0000, #990000);
+            border: 5px outset gold;
+            color: yellow;
             font-size: 2rem; padding: 20px 40px;
-            font-family: 'Impact'; cursor: pointer;
-            box-shadow: 0 0 30px lime;
+            font-family: 'Impact'; letter-spacing: 2px;
+            cursor: pointer;
+            box-shadow: 0 0 20px red;
             transition: 0.1s;
         }
-        .btn:hover {
-            background: lime; color: black;
-            transform: scale(1.1) rotate(3deg);
-            box-shadow: 0 0 60px white;
-        }
+        .btn:hover { transform: scale(1.1) rotate(-2deg); box-shadow: 0 0 50px yellow; }
 
-        /* --- GAME CANVAS --- */
+        /* GAME CANVAS */
         #game-canvas {
-            background: rgba(0,0,0,0.8);
-            border: 5px dashed yellow;
-            box-shadow: 0 0 50px red;
+            background: #222;
+            border: 5px dashed lime;
+            box-shadow: 0 0 30px lime;
             display: none;
         }
 
+        /* UTILS */
         .hidden { display: none !important; }
-
-        /* PARTICLES */
-        .emoji-float {
-            position: absolute; font-size: 3rem; pointer-events: none;
-            animation: floatUp 2s linear forwards;
+        .shake { animation: shake-anim 0.2s infinite; }
+        @keyframes shake-anim {
+            0% { transform: translate(2px, 2px); }
+            25% { transform: translate(-2px, -2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, 2px); }
         }
-        @keyframes floatUp { 0% {top: 100vh; opacity:1;} 100% {top: -100px; opacity:0; transform: rotate(360deg);} }
+        
+        .rainbow-text {
+            background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: rainbow 1s linear infinite;
+        }
+        @keyframes rainbow { 
+            100% { background-position: 2000px 0; } 
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="psychedelic-bg"></div>
-    <div id="glitch-layer" class="glitch-overlay"></div>
+    <div class="bg-chaos"></div>
+    <div id="meme-layer" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
 
     <div id="intro" class="container">
-        <h1>☣️ BRAINROT DASH ☣️</h1>
-        <h2 style="background:black; color:yellow;">WARNING: LOUD MUSIC & FLASHING</h2>
-        <button class="btn" onclick="startSystem()">ACTIVATE CHAOS</button>
+        <h1 class="shake">🍕 MLG_BRAINROT_V2 🚽</h1>
+        <h2 style="color: cyan;">NO-SCOPE EDITION</h2>
+        <p>⚠️ WARNING: LOUD MEMES ⚠️</p>
+        <button class="btn" onclick="initSite()">CLICK 2 START</button>
     </div>
 
     <div id="game-ui" class="container hidden">
-        <h2 style="background:black; color:white;">LEVEL 1: OHIO EASY MODE</h2>
-        <p style="background:black;">(Game plays itself sometimes)</p>
+        <h2 class="rainbow-text" style="font-size: 3rem;">DODGE THE HATERS</h2>
+        <p>(Tap or Space to Jump)</p>
         <canvas id="game-canvas" width="600" height="300"></canvas>
-        <h3 id="score" style="background:black; font-size:2rem;">SCORE: 0</h3>
+        <h3 id="score" style="font-size: 2rem; color: yellow;">SCORE: 0</h3>
+    </div>
+
+    <div id="quiz-ui" class="container hidden">
+        <h1 style="color: orange;">THE VIBE CHECK</h1>
+        <h2 id="q-text" style="background: rgba(0,0,0,0.8);">...</h2>
+        <div id="q-opts" style="width: 100%; display: flex; flex-direction: column; align-items: center;"></div>
     </div>
 
     <div id="outro" class="container hidden">
-        <h1 style="font-size: 6rem;">GG EZ</h1>
-        <div style="font-size: 3rem; font-weight: bold; background:rgba(0,0,0,0.7); padding:20px;">
-            <div>🍕 EAT PIZZA</div>
-            <div>😴 SLEEP</div>
-            <div style="color:red; font-size:5rem;">👹 GOON</div>
-            <div>🔁 REPEAT</div>
+        <h1 style="font-size: 5rem; color: lime;">MISSION PASSED</h1>
+        <h2 style="color: silver;">RESPECT +</h2>
+        <div style="font-size: 3rem; font-weight: bold; line-height: 1.5; text-transform: uppercase;">
+            <div class="shake">🍕 EAT PIZZA</div>
+            <div class="shake">😴 SLEEP</div>
+            <div class="shake" style="color: red; font-size: 5rem; text-shadow: 0 0 20px white;">👹 GOON</div>
+            <div class="shake">🔁 REPEAT</div>
         </div>
         <br>
-        <button class="btn" onclick="location.reload()">AGAIN</button>
+        <button class="btn" onclick="location.reload()">PRESTIGE (RESTART)</button>
     </div>
 
     <script>
-        // --- MUSIC ENGINE (GENERATIVE TECHNO) ---
+        // --- AUDIO SYSTEM (MEME SIMULATOR) ---
+        const synth = window.speechSynthesis;
         let audioCtx;
-        let nextNoteTime = 0;
-        let noteLength = 0.15; // Speed of beat
-        let chaosLevel = 0;
 
         function initAudio() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            nextNoteTime = audioCtx.currentTime;
-            scheduler();
         }
 
-        function scheduler() {
-            while (nextNoteTime < audioCtx.currentTime + 0.1) {
-                playBeat(nextNoteTime);
-                nextNoteTime += noteLength;
-            }
-            if(document.getElementById('outro').classList.contains('hidden')) {
-                requestAnimationFrame(scheduler);
-            }
-        }
-
-        function playBeat(time) {
-            // Kick Drum
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.frequency.setValueAtTime(150, time);
-            osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
-            gain.gain.setValueAtTime(1, time);
-            gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(time); osc.stop(time + 0.5);
-
-            // Chaos Melody (Random High Pitches)
-            if(Math.random() > 0.5) {
-                const mel = audioCtx.createOscillator();
-                const mg = audioCtx.createGain();
-                mel.type = 'square';
-                mel.frequency.setValueAtTime(Math.random() * 800 + 200, time);
-                // Slide pitch for "crazy" effect
-                mel.frequency.linearRampToValueAtTime(Math.random() * 1000, time + 0.1);
-                mg.gain.setValueAtTime(0.1, time);
-                mg.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
-                mel.connect(mg); mg.connect(audioCtx.destination);
-                mel.start(time); mel.stop(time + 0.3);
-            }
-        }
-
-        // --- GAME SYSTEM ---
-        function startSystem() {
-            // Request Fullscreen
-            if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+        // Plays text using browser voice, pitched to sound like memes
+        function memeVoice(text, type="normal") {
+            if(synth.speaking) synth.cancel(); // Cut off previous meme
+            const u = new SpeechSynthesisUtterance(text);
+            u.volume = 1; 
             
+            if(type === "hype") {
+                u.rate = 1.6; u.pitch = 1.5; // High pitch kid voice
+            } else if (type === "deep") {
+                u.rate = 0.8; u.pitch = 0.5; // Deep demon voice
+            } else if (type === "fast") {
+                u.rate = 2.0; u.pitch = 1.0;
+            }
+
+            synth.speak(u);
+            spawnFloatingText(text); // Show text on screen
+        }
+
+        // --- VISUAL FX SYSTEM ---
+        function spawnFloatingText(text) {
+            const el = document.createElement('div');
+            el.innerText = text;
+            el.className = 'meme-pop';
+            el.style.left = Math.random() * 80 + 'vw';
+            el.style.top = Math.random() * 80 + 'vh';
+            el.style.color = `hsl(${Math.random()*360}, 100%, 50%)`;
+            document.getElementById('meme-layer').appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function spawnHitmarker() {
+            const el = document.createElement('div');
+            el.className = 'hitmarker';
+            el.style.left = (Math.random() * 80 + 10) + 'vw';
+            el.style.top = (Math.random() * 80 + 10) + 'vh';
+            document.getElementById('meme-layer').appendChild(el);
+            
+            // "Thwip" sound simulation
+            const osc = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+            g.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            osc.connect(g); g.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+
+            setTimeout(() => el.remove(), 200);
+        }
+
+        function triggerMemeEvent() {
+            const memes = ["🔺", "🐕", "🐸", "💀", "🚽", "🍕"];
+            const m = memes[Math.floor(Math.random() * memes.length)];
+            spawnFloatingText(m);
+        }
+
+        // --- GAME LOGIC (EASIER NOW) ---
+        function initSite() {
             initAudio();
+            memeVoice("Let's go gamers!", "hype");
             document.getElementById('intro').classList.add('hidden');
             document.getElementById('game-ui').classList.remove('hidden');
             startGame();
-            
-            // Random Emoji Spawner
-            setInterval(() => {
-                const e = document.createElement('div');
-                e.innerText = ["🍕", "💀", "🚽", "🔥", "🅱️"][Math.floor(Math.random()*5)];
-                e.className = 'emoji-float';
-                e.style.left = Math.random()*100 + 'vw';
-                document.body.appendChild(e);
-                setTimeout(()=>e.remove(), 2000);
-            }, 300);
         }
 
-        let canvas, ctx;
-        let player = { x:50, y:200, dy:0, grounded:false };
+        let canvas, ctx, gameLoopId;
+        let player = { x: 50, y: 220, w: 40, h: 40, dy: 0, grounded: false };
         let obstacles = [];
         let score = 0;
-        let gameActive = false;
+        let speed = 5; // Slower speed (Easier)
 
         function startGame() {
             canvas = document.getElementById('game-canvas');
             canvas.style.display = "block";
             ctx = canvas.getContext('2d');
-            gameActive = true;
             
-            document.body.onmousedown = () => jump(true);
-            document.body.onkeydown = (e) => { if(e.code==='Space') jump(true); };
+            document.addEventListener('keydown', (e) => { if(e.code === 'Space') jump(); });
+            document.addEventListener('touchstart', jump);
+            document.addEventListener('click', jump);
             
             loop();
         }
 
-        function jump(isPlayer) {
-            player.dy = -10; // Low Gravity Jump
-            player.grounded = false;
-            
-            // Play "Jump" sound
-            if(audioCtx) {
-                const o = audioCtx.createOscillator();
-                o.type='triangle';
-                o.frequency.setValueAtTime(300, audioCtx.currentTime);
-                o.frequency.linearRampToValueAtTime(600, audioCtx.currentTime+0.1);
-                o.connect(audioCtx.destination);
-                o.start(); o.stop(audioCtx.currentTime+0.1);
+        function jump() {
+            if(player.grounded) {
+                player.dy = -13; // Higher jump
+                player.grounded = false;
+                memeVoice("Hup!", "fast");
             }
         }
 
         function loop() {
-            if(!gameActive) return;
-            requestAnimationFrame(loop);
-            ctx.clearRect(0,0,600,300);
+            gameLoopId = requestAnimationFrame(loop);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. CHAOS: Random "Misclick" / Autoplay
-            // 2% chance per frame to jump automatically
-            if(Math.random() < 0.02 && player.grounded) {
-                jump(false);
-                // Flash the screen to indicate "glitch"
-                const gl = document.getElementById('glitch-layer');
-                gl.classList.add('glitching');
-                setTimeout(()=>gl.classList.remove('glitching'), 100);
-            }
-
-            // Physics (SUPER EASY MODE)
-            player.dy += 0.5; // Low gravity
+            // Physics
+            player.dy += 0.6; // Lower gravity (Easier)
             player.y += player.dy;
-            if(player.y > 250) { player.y = 250; player.grounded = true; }
-            if(player.y < 0) { player.y = 0; player.dy = 0; }
-
-            // Draw Player
-            ctx.fillStyle = `hsl(${score % 360}, 100%, 50%)`; // Rainbow player
-            ctx.fillRect(player.x, player.y, 40, 40);
-
-            // Obstacles
-            if(Math.random() < 0.01) { // Very rare spawn (Easy)
-                obstacles.push({ x: 600 });
+            
+            // Ground collision
+            if(player.y > 250) { 
+                player.y = 250; 
+                player.dy = 0; 
+                player.grounded = true; 
             }
 
-            obstacles.forEach(o => {
-                o.x -= 5; // Slow speed
-                ctx.fillStyle = 'red';
-                ctx.beginPath();
-                ctx.moveTo(o.x, 290); ctx.lineTo(o.x+20, 240); ctx.lineTo(o.x+40, 290);
-                ctx.fill();
+            // Draw Player (Doge Box)
+            ctx.fillStyle = "orange";
+            ctx.fillRect(player.x, player.y, player.w, player.h);
+            ctx.font = "30px Arial";
+            ctx.fillText("🐕", player.x, player.y + 30);
 
-                // Hitbox
-                if(o.x < 90 && o.x > 10 && player.y > 220) {
-                    // Punish (Flashbang + Reset score) but don't stop game entirely
-                    score = 0;
-                    document.body.style.filter = "invert(1)";
-                    setTimeout(()=>document.body.style.filter = "invert(0)", 200);
+            // Spawn Obstacles (Less frequent = Easier)
+            if(Math.random() < 0.01) { // 1% chance per frame
+                obstacles.push({ x: canvas.width, w: 30, h: 50 });
+            }
+
+            // Draw Obstacles (Doritos)
+            obstacles.forEach((obs, index) => {
+                obs.x -= speed;
+                ctx.font = "30px Arial";
+                ctx.fillText("🔺", obs.x, 290); // Illuminati/Dorito spike
+
+                // Collision Detection (Smaller hitbox for mercy)
+                if(player.x < obs.x + 20 && 
+                   player.x + 30 > obs.x && 
+                   player.y > 240) {
+                    gameOver();
                 }
             });
 
+            // Cleanup
             obstacles = obstacles.filter(o => o.x > -50);
+
+            // Score & Memes
             score++;
             document.getElementById('score').innerText = "SCORE: " + score;
+            
+            if(score % 100 === 0) {
+                spawnHitmarker();
+                triggerMemeEvent();
+                memeVoice("Wow!", "hype");
+            }
 
-            if(score > 300) {
-                gameActive = false;
-                showOutro();
+            if(score > 600) { // Win condition
+                cancelAnimationFrame(gameLoopId);
+                winGame();
             }
         }
 
-        function showOutro() {
+        function gameOver() {
+            // Instead of full reset, we just knock them back
+            memeVoice("Damn son!", "deep");
+            obstacles = []; // Clear obstacles for mercy
+            player.y = 200;
+            spawnFloatingText("OOF");
+            document.body.style.backgroundColor = "red";
+            setTimeout(() => document.body.style.backgroundColor = "black", 100);
+        }
+
+        function winGame() {
             document.getElementById('game-ui').classList.add('hidden');
+            document.getElementById('quiz-ui').classList.remove('hidden');
+            memeVoice("OH BABY A TRIPLE! OH YEAH!", "hype");
+            // The OHHHHHH Effect
+            document.body.classList.add('shake');
+            setTimeout(() => document.body.classList.remove('shake'), 1000);
+            startQuiz();
+        }
+
+        // --- QUIZ LOGIC ---
+        const questions = [
+            { q: "WHAT IS THE BEST FOOD?", a: ["PIZZA", "SALAD", "ROCKS"], c: 0 },
+            { q: "MOM GET THE _____", a: ["MILK", "CAMERA", "CAR"], c: 1 },
+            { q: "MLG STANDS FOR?", a: ["MAJOR LEAGUE GAMING", "MY LIL GOON", "MOMS LOVE GREG"], c: 0 }
+        ];
+        let qIdx = 0;
+
+        function startQuiz() {
+            showQ();
+        }
+
+        function showQ() {
+            if(qIdx >= questions.length) {
+                endScreen();
+                return;
+            }
+            let curr = questions[qIdx];
+            document.getElementById('q-text').innerText = curr.q;
+            memeVoice(curr.q, "normal");
+            
+            const cont = document.getElementById('q-opts');
+            cont.innerHTML = "";
+            curr.a.forEach((ans, i) => {
+                let btn = document.createElement('button');
+                btn.className = "btn";
+                btn.style.margin = "10px";
+                btn.innerText = ans;
+                btn.onclick = () => checkAns(i, curr.c);
+                cont.appendChild(btn);
+            });
+        }
+
+        function checkAns(idx, correct) {
+            if(idx === correct) {
+                spawnHitmarker();
+                memeVoice("SAMPLE TEXT", "hype"); // Random celebration
+                qIdx++;
+                showQ();
+            } else {
+                memeVoice("Sad Violin Noises", "deep");
+                document.body.style.filter = "grayscale(100%)";
+                setTimeout(() => document.body.style.filter = "none", 500);
+            }
+        }
+
+        function endScreen() {
+            document.getElementById('quiz-ui').classList.add('hidden');
             document.getElementById('outro').classList.remove('hidden');
+            
+            // Loop the mantra
+            const mantra = ["Eat Pizza", "Sleep", "Goon", "Repeat"];
+            let i = 0;
+            setInterval(() => {
+                memeVoice(mantra[i], i===2 ? "deep" : "normal"); // Deep voice for GOON
+                spawnHitmarker();
+                i = (i+1)%mantra.length;
+            }, 1200);
         }
 
     </script>
